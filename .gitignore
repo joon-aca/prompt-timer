@@ -8,3 +8,7 @@ xcuserdata/
 *.xcuserstate
 TimerCLI/timer
 SimpleTimer.xcodeproj/project.xcworkspace/xcuserdata/
+dist/
+AppIcon.iconset/
+*.certSigningRequest
+*.cer
