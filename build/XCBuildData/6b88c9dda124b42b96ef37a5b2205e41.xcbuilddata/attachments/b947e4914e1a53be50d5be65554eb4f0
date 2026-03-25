@@ -1,0 +1,36 @@
+{
+  "" : {
+    "const-values" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/TimerCLI-primary.swiftconstvalues",
+    "dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/TimerCLI-primary.d",
+    "diagnostics" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/TimerCLI-primary.dia",
+    "emit-module-dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/TimerCLI-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/TimerCLI-primary-emit-module.dia",
+    "pch" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/TimerCLI-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/TimerCLI-primary.swiftdeps"
+  },
+  "/Users/joon/dev/github/prompt-timer/TimerCLI/AgentLauncher.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/AgentLauncher.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/AgentLauncher.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/AgentLauncher.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/TimerCLI/CLIParser.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/CLIParser.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/CLIParser.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/CLIParser.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/TimerCLI/IPCClient.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/IPCClient.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/IPCClient.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/IPCClient.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/TimerCLI/OutputFormatter.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/OutputFormatter.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/OutputFormatter.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/OutputFormatter.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/TimerCLI/VerboseLogger.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/VerboseLogger.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/VerboseLogger.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/TimerCLI.build/Objects-normal/x86_64/VerboseLogger.o"
+  }
+}

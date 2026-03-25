@@ -1,0 +1,10 @@
+.DS_Store
+.build*/
+.cache/
+.deriveddata*/
+.swiftpm/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+TimerCLI/timer
+SimpleTimer.xcodeproj/project.xcworkspace/xcuserdata/

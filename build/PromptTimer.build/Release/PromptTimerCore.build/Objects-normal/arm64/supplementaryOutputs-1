@@ -1,0 +1,12 @@
+{
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/Models/AppState.swift" : {
+    "abi-baseline-json" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerCore.build/Objects-normal/arm64/PromptTimerCore.abi.json",
+    "const-values" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerCore.build/Objects-normal/arm64/PromptTimerCore-primary.swiftconstvalues",
+    "dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerCore.build/Objects-normal/arm64/PromptTimerCore-primary.d",
+    "diagnostics" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerCore.build/Objects-normal/arm64/PromptTimerCore-primary.dia",
+    "objc-header" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerCore.build/Objects-normal/arm64/PromptTimerCore-Swift.h",
+    "swiftdoc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerCore.build/Objects-normal/arm64/PromptTimerCore.swiftdoc",
+    "swiftmodule" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerCore.build/Objects-normal/arm64/PromptTimerCore.swiftmodule",
+    "swiftsourceinfo" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerCore.build/Objects-normal/arm64/PromptTimerCore.swiftsourceinfo"
+  }
+}

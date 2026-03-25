@@ -1,0 +1,109 @@
+name: PromptTimer
+options:
+  bundleIdPrefix: com.joon
+  deploymentTarget:
+    macOS: "14.0"
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    ENABLE_HARDENED_RUNTIME: YES
+targets:
+  PromptTimerCore:
+    type: framework
+    platform: macOS
+    sources:
+      - path: PromptTimerApp/Models
+      - path: PromptTimerApp/Utilities
+      - path: PromptTimerApp/TimerStore.swift
+      - path: PromptTimerApp/TimerManager.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.joon.prompttimer.core
+        PRODUCT_NAME: PromptTimerCore
+        DEFINES_MODULE: YES
+        GENERATE_INFOPLIST_FILE: YES
+
+  TimerCLI:
+    type: framework
+    platform: macOS
+    sources:
+      - path: TimerCLI
+        excludes:
+          - main.swift
+    dependencies:
+      - target: PromptTimerCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.joon.prompttimer.cli.module
+        PRODUCT_NAME: TimerCLI
+        DEFINES_MODULE: YES
+        GENERATE_INFOPLIST_FILE: YES
+
+  timer:
+    type: tool
+    platform: macOS
+    sources:
+      - path: TimerCLI/main.swift
+    dependencies:
+      - target: PromptTimerCore
+      - target: TimerCLI
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.joon.prompttimer.cli
+        PRODUCT_NAME: timer
+        SKIP_INSTALL: NO
+
+  PromptTimerApp:
+    type: application
+    platform: macOS
+    info:
+      path: Config/PromptTimerApp-Info.plist
+      properties:
+        CFBundleIconFile: AppIcon
+    sources:
+      - path: PromptTimerApp
+        excludes:
+          - Models
+          - Utilities
+          - TimerStore.swift
+          - TimerManager.swift
+    dependencies:
+      - target: PromptTimerCore
+      - target: TimerCLI
+      - target: timer
+    copyFiles:
+      - destination: executables
+        files:
+          - $(BUILT_PRODUCTS_DIR)/timer
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.joon.prompttimer
+        PRODUCT_NAME: "Prompt Timer"
+        CODE_SIGN_ENTITLEMENTS: Config/PromptTimerApp.entitlements
+        INFOPLIST_FILE: Config/PromptTimerApp-Info.plist
+
+  PromptTimerTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: PromptTimerTests
+    dependencies:
+      - target: PromptTimerCore
+      - target: TimerCLI
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.joon.prompttimer.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGNING_ALLOWED: NO
+        CODE_SIGNING_REQUIRED: NO
+
+schemes:
+  PromptTimer:
+    build:
+      targets:
+        PromptTimerApp: all
+        timer: all
+        PromptTimerTests: test
+    test:
+      targets:
+        - PromptTimerTests

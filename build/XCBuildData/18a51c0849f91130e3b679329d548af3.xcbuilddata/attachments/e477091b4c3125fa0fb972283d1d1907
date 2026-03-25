@@ -1,0 +1,16 @@
+{
+  "" : {
+    "const-values" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/timer-primary.swiftconstvalues",
+    "dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/timer-primary.d",
+    "diagnostics" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/timer-primary.dia",
+    "emit-module-dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/timer-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/timer-primary-emit-module.dia",
+    "pch" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/timer-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/timer-primary.swiftdeps"
+  },
+  "/Users/joon/dev/github/prompt-timer/TimerCLI/main.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/main.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/main.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/timer.build/Objects-normal/x86_64/main.o"
+  }
+}

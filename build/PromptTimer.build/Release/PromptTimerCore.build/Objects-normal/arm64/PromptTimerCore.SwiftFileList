@@ -1,0 +1,12 @@
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Models/AppState.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Utilities/AtomicFileStore.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Utilities/DurationParser.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Models/IPCCommand.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Models/IPCResponse.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Utilities/Logger.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Models/Preferences.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Utilities/TimeFormatting.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Models/TimerEntry.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/TimerManager.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/Models/TimerState.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/TimerStore.swift

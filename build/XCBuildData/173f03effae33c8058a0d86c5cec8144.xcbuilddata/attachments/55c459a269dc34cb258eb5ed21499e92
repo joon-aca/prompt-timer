@@ -1,0 +1,4 @@
+framework module TimerCLI {
+  header "TimerCLI-Swift.h"
+  requires objc
+}

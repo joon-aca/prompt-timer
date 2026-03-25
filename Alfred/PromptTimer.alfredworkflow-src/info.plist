@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>bundleid</key>
+    <string>com.joon.prompttimer.alfred</string>
+    <key>createdby</key>
+    <string>Codex</string>
+    <key>description</key>
+    <string>Thin Alfred wrapper for the Prompt Timer CLI.</string>
+    <key>name</key>
+    <string>Prompt Timer</string>
+    <key>readme</key>
+    <string>See README.md in this folder for setup.</string>
+    <key>version</key>
+    <string>1.0</string>
+</dict>
+</plist>

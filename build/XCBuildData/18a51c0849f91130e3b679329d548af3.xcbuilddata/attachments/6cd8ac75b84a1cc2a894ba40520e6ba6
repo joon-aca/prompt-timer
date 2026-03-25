@@ -1,0 +1,71 @@
+{
+  "" : {
+    "const-values" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp-primary.swiftconstvalues",
+    "dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp-primary.d",
+    "diagnostics" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp-primary.dia",
+    "emit-module-dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp-primary-emit-module.dia",
+    "pch" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp-primary.swiftdeps"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/AppDelegate.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/AppDelegate.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/AppDelegate.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/AppDelegate.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/CLIInstaller.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/CLIInstaller.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/CLIInstaller.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/CLIInstaller.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/HotkeyManager.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/HotkeyManager.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/HotkeyManager.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/HotkeyManager.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/IPCServer.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/IPCServer.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/IPCServer.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/IPCServer.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/LaunchManager.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/LaunchManager.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/LaunchManager.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/LaunchManager.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/NotificationManager.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/NotificationManager.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/NotificationManager.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/NotificationManager.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/PreferencesController.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PreferencesController.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PreferencesController.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PreferencesController.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/PromptTimerApp.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/PromptTimerApp.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/QuickAddWindowController.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/QuickAddWindowController.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/QuickAddWindowController.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/QuickAddWindowController.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/ShortcutRecorderButton.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/ShortcutRecorderButton.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/ShortcutRecorderButton.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/ShortcutRecorderButton.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/StatusItemController.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/StatusItemController.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/StatusItemController.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/StatusItemController.o"
+  },
+  "/Users/joon/dev/github/prompt-timer/PromptTimerApp/WakeMonitor.swift" : {
+    "index-unit-output-path" : "/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/WakeMonitor.o",
+    "llvm-bc" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/WakeMonitor.bc",
+    "object" : "/Users/joon/dev/github/prompt-timer/build/PromptTimer.build/Release/PromptTimerApp.build/Objects-normal/arm64/WakeMonitor.o"
+  }
+}

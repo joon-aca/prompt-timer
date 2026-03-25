@@ -1,0 +1,12 @@
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/AppDelegate.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/CLIInstaller.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/HotkeyManager.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/IPCServer.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/LaunchManager.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/NotificationManager.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/PreferencesController.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/PromptTimerApp.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/QuickAddWindowController.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/ShortcutRecorderButton.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/StatusItemController.swift
+/Users/joon/dev/github/prompt-timer/PromptTimerApp/WakeMonitor.swift
