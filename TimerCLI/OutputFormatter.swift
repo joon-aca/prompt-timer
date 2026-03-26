@@ -41,7 +41,7 @@ public enum OutputFormatter {
             let lines = response.timers.map { timer in
                 let label = TimeFormatting.timerName(label: timer.label, durationSeconds: timer.durationSeconds)
                 let remaining = TimeFormatting.shortDuration(timer.remainingSeconds)
-                return "#\(timer.id)  \(label)  \(remaining)"
+                return "\(label)  \(remaining)"
             }
 
             return ([response.message] + lines).joined(separator: "\n")
