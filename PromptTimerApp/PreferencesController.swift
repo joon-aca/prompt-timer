@@ -16,7 +16,7 @@ final class PreferencesController: NSWindowController {
     private let shortcutButton = ShortcutRecorderButton()
     private let soundPopup = NSPopUpButton(frame: .zero, pullsDown: false)
     private let soundPreviewButton = NSButton(title: "\u{25B6}", target: nil, action: nil)
-    private let availableSounds = NotificationManager.availableSounds()
+    private let availableSounds = NotificationManager.availableSounds
     private let cliInstallButton = NSButton(title: "Install CLI", target: nil, action: nil)
     private let cliStatusLabel = NSTextField(labelWithString: "")
     private let notificationStatusLabel = NSTextField(labelWithString: "")

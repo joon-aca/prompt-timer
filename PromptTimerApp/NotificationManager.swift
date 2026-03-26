@@ -36,7 +36,7 @@ final class NotificationManager {
         let content = UNMutableNotificationContent()
         content.title = "Timer"
         content.body = TimeFormatting.finishedBody(for: timer)
-        if playSound {
+        if playSound, authorizationStatus == .authorized {
             content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: soundName))
         }
 
@@ -47,7 +47,9 @@ final class NotificationManager {
         )
         center.add(request)
 
-        if playSound {
+        // Play sound directly only when notifications are denied/not determined,
+        // since UNNotificationSound handles it when authorized
+        if playSound, authorizationStatus != .authorized {
             Self.playSound(named: soundName)
         }
     }
@@ -65,7 +67,7 @@ final class NotificationManager {
         }
     }
 
-    static func availableSounds() -> [String] {
+    static let availableSounds: [String] = {
         let url = URL(fileURLWithPath: "/System/Library/Sounds")
         guard let files = try? FileManager.default.contentsOfDirectory(
             at: url, includingPropertiesForKeys: nil
@@ -76,5 +78,5 @@ final class NotificationManager {
             .filter { $0.pathExtension == "aiff" }
             .map { $0.deletingPathExtension().lastPathComponent }
             .sorted()
-    }
+    }()
 }
