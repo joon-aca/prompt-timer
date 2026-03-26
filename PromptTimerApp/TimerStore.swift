@@ -6,9 +6,9 @@ public struct TimerStore {
 
     public let appSupportDirectory: URL
     public let stateFileURL: URL
-    public let ipcHost: String
-    public let ipcPort: UInt16
+    public let socketPath: String
     private let logger = PromptTimerLogger(category: "TimerStore")
+    private let fileStore: AtomicFileStore<AppState>
 
     public init(
         fileManager: FileManager = .default,
@@ -32,13 +32,13 @@ public struct TimerStore {
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
         appSupportDirectory = directory
         stateFileURL = directory.appendingPathComponent("state.json")
-        ipcHost = "127.0.0.1"
-        ipcPort = 45_000 + UInt16(getuid() % 1_000)
+        fileStore = AtomicFileStore<AppState>(fileURL: stateFileURL)
+
+        let tmpDir = NSTemporaryDirectory()
+        socketPath = (tmpDir as NSString).appendingPathComponent("\(Self.appBundleIdentifier).sock")
     }
 
     public func loadState() -> AppState {
-        let fileStore = AtomicFileStore<AppState>(fileURL: stateFileURL)
-
         do {
             guard let state = try fileStore.loadIfPresent() else {
                 return AppState()
@@ -56,8 +56,6 @@ public struct TimerStore {
     }
 
     public func saveState(_ state: AppState) {
-        let fileStore = AtomicFileStore<AppState>(fileURL: stateFileURL)
-
         do {
             try fileStore.save(state)
         } catch {

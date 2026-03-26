@@ -46,6 +46,7 @@
 		C0E1D0225655A188B48D72F0 /* IPCProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF860E95084F81FA8158B421 /* IPCProtocolTests.swift */; };
 		CFAD5C615AD520A3963BCFE5 /* DurationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70003A2EC7FC7FA30156B7E7 /* DurationParser.swift */; };
 		D08A747880892D807F23E8C5 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE1B34F7264F5C3E2BD20D2 /* NotificationManager.swift */; };
+		D7219AFC2A4352A2C3CAA392 /* IPCSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903AFEFC046B7ECBA51A3CA0 /* IPCSocket.swift */; };
 		D72CE787A12633BB155C29C2 /* TimerCLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFEF4A600E0069FFE80B4 /* TimerCLI.framework */; };
 		D8B7DD0B7F56CEC6B50FF294 /* TimerCLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFEF4A600E0069FFE80B4 /* TimerCLI.framework */; };
 		DB8268656A89F8B0330E27B1 /* StatusItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EAA3F7669C725637B3D9B /* StatusItemController.swift */; };
@@ -167,6 +168,7 @@
 		842813CBD9F9C33306385EDB /* TimeFormatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatting.swift; sourceTree = "<group>"; };
 		860E00214C34CFDDAF9E3BB8 /* TimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerState.swift; sourceTree = "<group>"; };
 		8E3FAF536169E6C44CC2B941 /* IPCClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPCClient.swift; sourceTree = "<group>"; };
+		903AFEFC046B7ECBA51A3CA0 /* IPCSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPCSocket.swift; sourceTree = "<group>"; };
 		92BE1A8B940CF3CD08EF5A1C /* HotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyManager.swift; sourceTree = "<group>"; };
 		9B044D451C7C8AC59E732A21 /* TimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerManager.swift; sourceTree = "<group>"; };
 		AF860E95084F81FA8158B421 /* IPCProtocolTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPCProtocolTests.swift; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 			children = (
 				D01BE368AF9072FAE782D3A8 /* AtomicFileStore.swift */,
 				70003A2EC7FC7FA30156B7E7 /* DurationParser.swift */,
+				903AFEFC046B7ECBA51A3CA0 /* IPCSocket.swift */,
 				FAACF5AA18A615944FF9CCE9 /* Logger.swift */,
 				842813CBD9F9C33306385EDB /* TimeFormatting.swift */,
 			);
@@ -513,6 +516,7 @@
 				CFAD5C615AD520A3963BCFE5 /* DurationParser.swift in Sources */,
 				E00AE760068ADFC4FD863491 /* IPCCommand.swift in Sources */,
 				17EE95894B05DC2AC0746BC0 /* IPCResponse.swift in Sources */,
+				D7219AFC2A4352A2C3CAA392 /* IPCSocket.swift in Sources */,
 				7C40D3E996F3FC816B6999AC /* Logger.swift in Sources */,
 				10392FA18CB5E885C16DDB00 /* Preferences.swift in Sources */,
 				6234DEB2A6AE73F01FB48494 /* TimeFormatting.swift in Sources */,

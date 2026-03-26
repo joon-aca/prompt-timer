@@ -15,6 +15,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var wakeMonitor: WakeMonitor?
     private var hotkeyManager: HotkeyManager?
     private let launchManager = LaunchManager()
+    private var lastLaunchAtLogin: Bool?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         do {
@@ -36,7 +37,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             timerManager.onStateChange = { [weak self] state in
                 self?.statusItemController?.refresh(state: state)
                 self?.preferencesController?.preferences = state.preferences
-                self?.launchManager.applyPreference(state.preferences.launchAtLogin)
+                if state.preferences.launchAtLogin != self?.lastLaunchAtLogin {
+                    self?.lastLaunchAtLogin = state.preferences.launchAtLogin
+                    self?.launchManager.applyPreference(state.preferences.launchAtLogin)
+                }
                 self?.hotkeyManager?.register(
                     keyCode: state.preferences.hotkeyKeyCode,
                     modifiers: state.preferences.hotkeyModifiers
@@ -59,7 +63,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 guard let self, let manager = self.timerManager else {
                     return
                 }
-                self.statusItemController?.refresh(state: manager.state)
+                self.statusItemController?.refreshTitle(state: manager.state)
             }
 
             wakeMonitor.onWake = { [weak timerManager] in
@@ -67,8 +71,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             let ipcServer = IPCServer(
-                host: timerStore.ipcHost,
-                port: timerStore.ipcPort
+                socketPath: timerStore.socketPath
             ) { [weak self] command in
                 guard let self else {
                     return IPCResponse.failure("Prompt Timer is shutting down.")
@@ -93,7 +96,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             notificationManager.refreshAuthorizationStatus()
             wakeMonitor.start()
             try ipcServer.start()
-            logger.debug("IPC server started on \(timerStore.ipcHost):\(timerStore.ipcPort)")
+            logger.debug("IPC server started on \(timerStore.socketPath)")
             timerManager.load()
             statusItemController.refresh(state: timerManager.state)
         } catch {
@@ -139,13 +142,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 guard let timer = timerManager.cancelTimer(id: id) else {
                     return .failure("No timer found with id \(id)")
                 }
-                return .success("Cancelled timer #\(timer.id)", timers: timerManager.snapshots())
+                let label = TimeFormatting.timerName(label: timer.label, durationSeconds: timer.durationSeconds)
+                return .success("Cancelled \(label)", timers: timerManager.snapshots())
             }
 
             guard let timer = timerManager.cancelOnlyTimerIfPossible() else {
                 return .failure("Multiple timers are active. Use `timer cancel <id>` or `timer cancel all`.")
             }
-            return .success("Cancelled timer #\(timer.id)", timers: timerManager.snapshots())
+            let label = TimeFormatting.timerName(label: timer.label, durationSeconds: timer.durationSeconds)
+            return .success("Cancelled \(label)", timers: timerManager.snapshots())
 
         case .cancelAll:
             let count = timerManager.cancelAllTimers()
@@ -215,7 +220,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
 private enum OutputMessages {
     static func started(timer: TimerEntry) -> String {
-        var message = "Started timer #\(timer.id) for \(TimeFormatting.shortDuration(timer.durationSeconds))"
+        var message = "Started timer for \(TimeFormatting.shortDuration(timer.durationSeconds))"
         if let label = timer.label {
             message += " - \(label)"
         }

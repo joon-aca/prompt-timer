@@ -32,10 +32,7 @@ do {
     case let .ipc(command):
         VerboseLogger.log("Parsed command: \(command.command.rawValue)")
         let store = try TimerStore()
-        let client = IPCClient(
-            host: store.ipcHost,
-            port: store.ipcPort
-        )
+        let client = IPCClient(socketPath: store.socketPath)
         let response = try send(command: command, with: client)
         let output = OutputFormatter.render(response, mode: useAlfredOutput ? .alfred : .terminal)
         print(output)
