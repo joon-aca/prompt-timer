@@ -43,6 +43,10 @@ final class StatusItemController: NSObject {
         statusItem?.menu = buildMenu(state: state)
     }
 
+    func refreshTitle(state: AppState) {
+        updateButtonTitle(state: state)
+    }
+
     func revealMenu() {
         guard let statusItem else {
             openQuickAdd()
@@ -52,6 +56,8 @@ final class StatusItemController: NSObject {
         refresh(state: timerManager.state)
         statusItem.button?.performClick(nil)
     }
+
+    // MARK: - Private
 
     private func updateButtonTitle(state: AppState) {
         guard let button = statusItem?.button else {
@@ -85,7 +91,7 @@ final class StatusItemController: NSObject {
             empty.isEnabled = false
             menu.addItem(empty)
         } else {
-            for timer in timerManager.listActiveTimers() {
+            for timer in state.activeTimers {
                 let label = TimeFormatting.timerName(label: timer.label, durationSeconds: timer.durationSeconds)
                 let remaining = TimeFormatting.shortDuration(timer.remainingSeconds())
                 let item = NSMenuItem(
@@ -124,14 +130,7 @@ final class StatusItemController: NSObject {
 
         menu.addItem(.separator())
 
-        let cancelTitle = switch state.activeTimers.count {
-        case 0:
-            "Cancel Current Timer"
-        case 1:
-            "Cancel Current Timer"
-        default:
-            "Cancel Soonest Timer"
-        }
+        let cancelTitle = state.activeTimers.count > 1 ? "Cancel Soonest Timer" : "Cancel Current Timer"
         let cancelNext = NSMenuItem(title: cancelTitle, action: #selector(cancelNextTimer), keyEquivalent: "")
         cancelNext.target = self
         cancelNext.isEnabled = !state.activeTimers.isEmpty

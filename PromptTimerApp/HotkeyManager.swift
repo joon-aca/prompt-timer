@@ -3,15 +3,27 @@ import AppKit
 
 @MainActor
 final class HotkeyManager {
-    private var hotkeyRef: EventHotKeyRef?
-    private var eventHandlerRef: EventHandlerRef?
+    nonisolated(unsafe) private var hotkeyRef: EventHotKeyRef?
+    nonisolated(unsafe) private var eventHandlerRef: EventHandlerRef?
+    private var registeredKeyCode: UInt32 = 0
+    private var registeredModifiers: UInt32 = 0
     private let action: () -> Void
 
     init(action: @escaping () -> Void) {
         self.action = action
     }
 
+    deinit {
+        if let ref = hotkeyRef {
+            UnregisterEventHotKey(ref)
+        }
+        if let ref = eventHandlerRef {
+            RemoveEventHandler(ref)
+        }
+    }
+
     func register(keyCode: UInt32, modifiers: UInt32) {
+        guard keyCode != registeredKeyCode || modifiers != registeredModifiers else { return }
         unregister()
 
         let hotkeyID = EventHotKeyID(signature: fourCharCode("PTMR"), id: 1)
@@ -20,6 +32,8 @@ final class HotkeyManager {
         let status = RegisterEventHotKey(keyCode, modifiers, hotkeyID, GetApplicationEventTarget(), 0, &ref)
         guard status == noErr else { return }
         hotkeyRef = ref
+        registeredKeyCode = keyCode
+        registeredModifiers = modifiers
 
         if eventHandlerRef == nil {
             installEventHandler()
@@ -30,6 +44,8 @@ final class HotkeyManager {
         if let ref = hotkeyRef {
             UnregisterEventHotKey(ref)
             hotkeyRef = nil
+            registeredKeyCode = 0
+            registeredModifiers = 0
         }
     }
 

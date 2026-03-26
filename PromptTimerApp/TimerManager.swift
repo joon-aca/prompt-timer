@@ -47,7 +47,6 @@ public final class TimerManager {
         )
 
         state.activeTimers.append(timer)
-        sortState()
         persistState()
         refreshScheduling()
         onStateChange?(state)
@@ -56,7 +55,7 @@ public final class TimerManager {
     }
 
     public func listActiveTimers() -> [TimerEntry] {
-        state.activeTimers.sorted { $0.dueAt < $1.dueAt }
+        state.activeTimers
     }
 
     public func listRecentTimers() -> [TimerEntry] {
