@@ -3,6 +3,7 @@
 .cache/
 .deriveddata*/
 .swiftpm/
+build/
 DerivedData/
 xcuserdata/
 *.xcuserstate
@@ -12,3 +13,4 @@ dist/
 AppIcon.iconset/
 *.certSigningRequest
 *.cer
+*.p12

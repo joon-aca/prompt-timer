@@ -1,4 +1,0 @@
-framework module PromptTimerCore {
-  header "PromptTimerCore-Swift.h"
-  requires objc
-}
