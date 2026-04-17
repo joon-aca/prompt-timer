@@ -61,6 +61,9 @@ timer 10
 timer 25 deep work
 timer 30s tea
 timer 1h30m writing
+timer 10:30am team call launch zoom
+timer 10:30am team call fire up zoom
+timer start zoom in 30min for team call
 timer list
 timer ls
 timer status
@@ -73,6 +76,8 @@ timer help
 ```
 
 Bare integers are treated as minutes.
+
+Time-of-day input is supported, so `timer 10:30am team call` creates a timer that runs until the next 10:30 AM. App launch actions can be attached with trailing verbs like `launch`, `start`, `open`, or `fire up`, for example `timer 10:30am team call launch zoom`. Action-first prompts like `timer start zoom in 30min for team call` are also supported.
 
 ## Build and install
 
@@ -88,6 +93,8 @@ This repository includes a Swift package and an XcodeGen project spec. The packa
 4. Open `PromptTimer.xcodeproj`
 5. Set signing and bundle identifiers
 6. Build `PromptTimerApp`
+
+For a local install on your own Mac, prefer a consistent Apple Development signing identity in Xcode and copy the built app into `/Applications`. The `scripts/install.sh` helper does that for a Release build and preserves the existing signature instead of re-signing ad hoc.
 
 ## Alfred setup
 

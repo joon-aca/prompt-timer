@@ -3,7 +3,7 @@ set -euo pipefail
 
 APP_NAME="Prompt Timer"
 BUNDLE_ID="com.joon.prompttimer"
-BUILD_DIR=".deriveddata/Build/Products/Release"
+BUILD_DIR="build/Release"
 DIST_DIR="dist"
 
 # Signing config — set these or export them in your environment
@@ -15,11 +15,12 @@ NOTARIZE_KEYCHAIN_PROFILE="${NOTARIZE_KEYCHAIN_PROFILE:-}"  # set via: xcrun not
 
 # Build first so we can read the version from the built app
 echo "Building ${APP_NAME}..."
+rm -rf "$BUILD_DIR" build/XCBuildData
 xcodebuild -project PromptTimer.xcodeproj \
     -target PromptTimerApp \
     -configuration Release \
-    BUILD_DIR="$BUILD_DIR" \
-    build -quiet
+    CONFIGURATION_BUILD_DIR="$(pwd)/$BUILD_DIR" \
+    clean build -quiet
 
 VERSION=$(defaults read "$(pwd)/${BUILD_DIR}/${APP_NAME}.app/Contents/Info" CFBundleShortVersionString 2>/dev/null || echo "1.0")
 DMG_NAME="PromptTimer-${VERSION}.dmg"
