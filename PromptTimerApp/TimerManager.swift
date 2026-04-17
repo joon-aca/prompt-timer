@@ -31,6 +31,8 @@ public final class TimerManager {
 
     public func load() {
         state = store.loadState()
+        trimRecentHistory()
+        sortState()
         reconcile(referenceDate: now())
         refreshScheduling()
         onStateChange?(state)
@@ -52,6 +54,14 @@ public final class TimerManager {
         onStateChange?(state)
 
         return timer
+    }
+
+    @discardableResult
+    public func restartRecentTimer(id: String) -> TimerEntry? {
+        guard let timer = state.recentTimers.first(where: { $0.id == id }) else {
+            return nil
+        }
+        return startTimer(durationSeconds: timer.durationSeconds, label: timer.label)
     }
 
     public func listActiveTimers() -> [TimerEntry] {
@@ -151,7 +161,9 @@ public final class TimerManager {
 
         state.activeTimers.removeAll { $0.dueAt <= referenceDate }
         let finishedTimers = overdue.map { $0.finishedVersion() }
-        state.recentTimers.insert(contentsOf: finishedTimers.reversed(), at: 0)
+        for timer in finishedTimers.reversed() {
+            insertRecentTimer(timer)
+        }
         trimRecentHistory()
         persistState()
         onTimersFinished?(finishedTimers)
@@ -164,6 +176,7 @@ public final class TimerManager {
 
     private func sortState() {
         state.activeTimers.sort { $0.dueAt < $1.dueAt }
+        deduplicateRecentHistory()
         state.recentTimers.sort { $0.dueAt > $1.dueAt }
     }
 
@@ -210,5 +223,21 @@ public final class TimerManager {
         refreshScheduling()
         onTick?()
         onStateChange?(state)
+    }
+
+    private func insertRecentTimer(_ timer: TimerEntry) {
+        state.recentTimers.removeAll { $0.matchesRecentHistoryTemplate(timer) }
+        state.recentTimers.insert(timer, at: 0)
+    }
+
+    private func deduplicateRecentHistory() {
+        var uniqueTimers: [TimerEntry] = []
+        for timer in state.recentTimers.sorted(by: { $0.dueAt > $1.dueAt }) {
+            guard !uniqueTimers.contains(where: { $0.matchesRecentHistoryTemplate(timer) }) else {
+                continue
+            }
+            uniqueTimers.append(timer)
+        }
+        state.recentTimers = uniqueTimers
     }
 }

@@ -40,6 +40,11 @@ public struct TimerEntry: Codable, Equatable, Identifiable, Sendable {
         return copy
     }
 
+    public func matchesRecentHistoryTemplate(_ other: TimerEntry) -> Bool {
+        label == other.label &&
+            durationSeconds == other.durationSeconds
+    }
+
     private static func makeID() -> String {
         String(UUID().uuidString.replacingOccurrences(of: "-", with: "").prefix(6)).lowercased()
     }

@@ -45,6 +45,52 @@ import Testing
 }
 
 @MainActor
+@Test func restartRecentTimerCreatesNewActiveTimer() throws {
+    var currentTime = Date(timeIntervalSince1970: 0)
+    let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+    let tempStore = try TimerStore(fileManager: .default, baseDirectory: directory)
+    let manager = TimerManager(store: tempStore, now: { currentTime })
+
+    manager.load()
+    let original = manager.startTimer(durationSeconds: 300, label: "stretch")
+    currentTime = Date(timeIntervalSince1970: 600)
+    manager.reconcile(referenceDate: currentTime)
+
+    let restarted = try #require(manager.restartRecentTimer(id: original.id))
+
+    #expect(restarted.id != original.id)
+    #expect(restarted.label == original.label)
+    #expect(restarted.durationSeconds == original.durationSeconds)
+    #expect(manager.listActiveTimers().contains(where: { $0.id == restarted.id }))
+}
+
+@MainActor
+@Test func deduplicatesRecentTimersByTemplate() throws {
+    var currentTime = Date(timeIntervalSince1970: 0)
+    let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+    let tempStore = try TimerStore(fileManager: .default, baseDirectory: directory)
+    let manager = TimerManager(store: tempStore, now: { currentTime })
+
+    manager.load()
+
+    _ = manager.startTimer(durationSeconds: 300, label: "tea")
+    currentTime = Date(timeIntervalSince1970: 600)
+    manager.reconcile(referenceDate: currentTime)
+
+    _ = manager.startTimer(durationSeconds: 300, label: "tea")
+    currentTime = Date(timeIntervalSince1970: 1200)
+    manager.reconcile(referenceDate: currentTime)
+
+    _ = manager.startTimer(durationSeconds: 180, label: "focus")
+    currentTime = Date(timeIntervalSince1970: 1500)
+    manager.reconcile(referenceDate: currentTime)
+
+    let recentTimers = manager.listRecentTimers()
+    #expect(recentTimers.count == 2)
+    #expect(recentTimers.filter { $0.label == "tea" && $0.durationSeconds == 300 }.count == 1)
+}
+
+@MainActor
 @Test func usesDurationAsFallbackTimerNameInStatus() throws {
     let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
     let tempStore = try TimerStore(fileManager: .default, baseDirectory: directory)

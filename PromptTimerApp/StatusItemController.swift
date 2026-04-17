@@ -151,10 +151,11 @@ final class StatusItemController: NSObject {
                 let label = TimeFormatting.timerName(label: timer.label, durationSeconds: timer.durationSeconds)
                 let item = NSMenuItem(
                     title: "\(label)  \(TimeFormatting.shortDuration(timer.durationSeconds))",
-                    action: nil,
+                    action: #selector(restartRecentTimer(_:)),
                     keyEquivalent: ""
                 )
-                item.isEnabled = false
+                item.target = self
+                item.representedObject = timer.id
                 menu.addItem(item)
             }
         }
@@ -209,6 +210,13 @@ final class StatusItemController: NSObject {
             return
         }
         _ = timerManager.cancelTimer(id: id)
+    }
+
+    @objc private func restartRecentTimer(_ sender: NSMenuItem) {
+        guard let id = sender.representedObject as? String else {
+            return
+        }
+        _ = timerManager.restartRecentTimer(id: id)
     }
 
     @objc private func quitApplication() {
