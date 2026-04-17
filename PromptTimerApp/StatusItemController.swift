@@ -9,6 +9,7 @@ final class StatusItemController: NSObject {
     private let openPreferences: () -> Void
     private let quitApp: () -> Void
     private var statusItem: NSStatusItem?
+    private var flashTimer: DispatchSourceTimer?
 
     init(
         timerManager: TimerManager,
@@ -55,6 +56,36 @@ final class StatusItemController: NSObject {
 
         refresh(state: timerManager.state)
         statusItem.button?.performClick(nil)
+    }
+
+    func flash() {
+        guard statusItem?.button != nil else { return }
+        flashTimer?.cancel()
+
+        let normalImage = NSImage(systemSymbolName: "timer", accessibilityDescription: "Prompt Timer")
+        let flashImage = NSImage(systemSymbolName: "checkmark.circle.fill", accessibilityDescription: "Timer done")
+
+        var tick = 0
+        let timer = DispatchSource.makeTimerSource(queue: .main)
+        timer.schedule(deadline: .now(), repeating: .milliseconds(400))
+        timer.setEventHandler { [weak self] in
+            Task { @MainActor in
+                guard let self, let button = self.statusItem?.button else {
+                    self?.flashTimer?.cancel()
+                    self?.flashTimer = nil
+                    return
+                }
+                button.image = tick % 2 == 0 ? flashImage : normalImage
+                tick += 1
+                if tick >= 8 {
+                    button.image = normalImage
+                    self.flashTimer?.cancel()
+                    self.flashTimer = nil
+                }
+            }
+        }
+        flashTimer = timer
+        timer.resume()
     }
 
     // MARK: - Private

@@ -16,6 +16,8 @@ final class PreferencesController: NSWindowController {
     private let shortcutButton = ShortcutRecorderButton()
     private let soundPopup = NSPopUpButton(frame: .zero, pullsDown: false)
     private let soundPreviewButton = NSButton(title: "\u{25B6}", target: nil, action: nil)
+    private let celebrationPopup = NSPopUpButton(frame: .zero, pullsDown: false)
+    private let funEffectPopup = NSPopUpButton(frame: .zero, pullsDown: false)
     private let availableSounds = NotificationManager.availableSounds
     private let cliInstallButton = NSButton(title: "Install CLI", target: nil, action: nil)
     private let cliStatusLabel = NSTextField(labelWithString: "")
@@ -29,7 +31,7 @@ final class PreferencesController: NSWindowController {
 
     init() {
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 420, height: 340),
+            contentRect: NSRect(x: 0, y: 0, width: 460, height: 424),
             styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
@@ -121,6 +123,26 @@ final class PreferencesController: NSWindowController {
         soundRow.alignment = .centerY
         soundRow.spacing = 8
 
+        let celebrationLabel = NSTextField(labelWithString: "Completion celebration")
+        celebrationPopup.removeAllItems()
+        celebrationPopup.addItems(withTitles: CompletionCelebrationStyle.allCases.map(\.displayName))
+        celebrationPopup.target = self
+        celebrationPopup.action = #selector(celebrationStyleChanged)
+        let celebrationRow = NSStackView(views: [celebrationLabel, celebrationPopup])
+        celebrationRow.orientation = .horizontal
+        celebrationRow.alignment = .centerY
+        celebrationRow.spacing = 8
+
+        let funEffectLabel = NSTextField(labelWithString: "Fun effect")
+        funEffectPopup.removeAllItems()
+        funEffectPopup.addItems(withTitles: FunCelebrationEffect.allCases.map(\.displayName))
+        funEffectPopup.target = self
+        funEffectPopup.action = #selector(funEffectChanged)
+        let funEffectRow = NSStackView(views: [funEffectLabel, funEffectPopup])
+        funEffectRow.orientation = .horizontal
+        funEffectRow.alignment = .centerY
+        funEffectRow.spacing = 8
+
         cliInstallButton.bezelStyle = .rounded
         cliInstallButton.target = self
         cliInstallButton.action = #selector(installCLI)
@@ -142,6 +164,8 @@ final class PreferencesController: NSWindowController {
         stack.addArrangedSubview(showNextButton)
         stack.addArrangedSubview(playSoundButton)
         stack.addArrangedSubview(soundRow)
+        stack.addArrangedSubview(celebrationRow)
+        stack.addArrangedSubview(funEffectRow)
         stack.addArrangedSubview(launchAtLoginButton)
         stack.addArrangedSubview(historyRow)
         stack.addArrangedSubview(shortcutRow)
@@ -168,6 +192,13 @@ final class PreferencesController: NSWindowController {
         if let index = availableSounds.firstIndex(of: preferences.completionSound) {
             soundPopup.selectItem(at: index)
         }
+        if let index = CompletionCelebrationStyle.allCases.firstIndex(of: preferences.completionCelebrationStyle) {
+            celebrationPopup.selectItem(at: index)
+        }
+        if let index = FunCelebrationEffect.allCases.firstIndex(of: preferences.funCelebrationEffect) {
+            funEffectPopup.selectItem(at: index)
+        }
+        funEffectPopup.isEnabled = preferences.completionCelebrationStyle == .fun
         refreshCLIStatus()
     }
 
@@ -191,6 +222,25 @@ final class PreferencesController: NSWindowController {
     @objc private func previewSound() {
         guard let title = soundPopup.selectedItem?.title else { return }
         NotificationManager.playSound(named: title)
+    }
+
+    @objc private func celebrationStyleChanged() {
+        let selectedIndex = celebrationPopup.indexOfSelectedItem
+        guard CompletionCelebrationStyle.allCases.indices.contains(selectedIndex) else {
+            return
+        }
+        preferences.completionCelebrationStyle = CompletionCelebrationStyle.allCases[selectedIndex]
+        funEffectPopup.isEnabled = preferences.completionCelebrationStyle == .fun
+        onPreferencesChanged?(preferences)
+    }
+
+    @objc private func funEffectChanged() {
+        let selectedIndex = funEffectPopup.indexOfSelectedItem
+        guard FunCelebrationEffect.allCases.indices.contains(selectedIndex) else {
+            return
+        }
+        preferences.funCelebrationEffect = FunCelebrationEffect.allCases[selectedIndex]
+        onPreferencesChanged?(preferences)
     }
 
     @objc private func installCLI() {

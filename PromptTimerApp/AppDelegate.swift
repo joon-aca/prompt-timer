@@ -9,6 +9,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var timerManager: TimerManager?
     private var statusItemController: StatusItemController?
     private var notificationManager: NotificationManager?
+    private var completionOverlayController: CompletionOverlayController?
     private var quickAddWindowController: QuickAddWindowController?
     private var preferencesController: PreferencesController?
     private var ipcServer: IPCServer?
@@ -24,6 +25,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let timerManager = TimerManager(store: timerStore)
             let notificationManager = NotificationManager()
             let wakeMonitor = WakeMonitor()
+            let completionOverlayController = CompletionOverlayController()
 
             let statusItemController = StatusItemController(
                 timerManager: timerManager,
@@ -57,6 +59,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                         for: timer, playSound: prefs.playSoundOnCompletion, soundName: prefs.completionSound
                     )
                 }
+                self.completionOverlayController?.present(
+                    for: timers,
+                    style: prefs.completionCelebrationStyle,
+                    funEffect: prefs.funCelebrationEffect
+                )
+                self.statusItemController?.flash()
             }
 
             timerManager.onTick = { [weak self] in
@@ -85,6 +93,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self.timerManager = timerManager
             self.statusItemController = statusItemController
             self.notificationManager = notificationManager
+            self.completionOverlayController = completionOverlayController
             self.wakeMonitor = wakeMonitor
             self.ipcServer = ipcServer
 

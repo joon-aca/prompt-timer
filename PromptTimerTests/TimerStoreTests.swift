@@ -41,3 +41,23 @@ import Testing
     #expect(backup != nil)
     #expect(FileManager.default.fileExists(atPath: backup!.path))
 }
+
+@Test func decodesLegacyPreferencesWithoutCelebrationStyle() throws {
+    let json = """
+    {
+      "alwaysShowMenuBarItem": true,
+      "showNextTimerInMenuBar": true,
+      "playSoundOnCompletion": true,
+      "recentHistoryCount": 10,
+      "launchAtLogin": false,
+      "hotkeyKeyCode": 17,
+      "hotkeyModifiers": 1280,
+      "completionSound": "Glass"
+    }
+    """.data(using: .utf8)!
+
+    let decoded = try JSONDecoder().decode(Preferences.self, from: json)
+
+    #expect(decoded.completionCelebrationStyle == .classic)
+    #expect(decoded.funCelebrationEffect == .auto)
+}
