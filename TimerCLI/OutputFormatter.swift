@@ -39,7 +39,11 @@ public enum OutputFormatter {
             }
 
             let lines = response.timers.map { timer in
-                let label = TimeFormatting.timerName(label: timer.label, durationSeconds: timer.durationSeconds)
+                let label = TimeFormatting.timerSummary(
+                    label: timer.label,
+                    action: timer.action,
+                    durationSeconds: timer.durationSeconds
+                )
                 let remaining = TimeFormatting.shortDuration(timer.remainingSeconds)
                 return "\(label)  \(remaining)"
             }
