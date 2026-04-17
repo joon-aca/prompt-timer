@@ -9,6 +9,14 @@ public enum TimeFormatting {
         return "\(shortDuration(durationSeconds)) timer"
     }
 
+    public static func timerSummary(label: String?, action: TimerAction?, durationSeconds: Int) -> String {
+        let name = timerName(label: label, durationSeconds: durationSeconds)
+        guard let action else {
+            return name
+        }
+        return "\(name) (\(action.summary))"
+    }
+
     public static func shortDuration(_ seconds: Int) -> String {
         let clamped = max(0, seconds)
         let hours = clamped / 3600
@@ -36,9 +44,10 @@ public enum TimeFormatting {
     }
 
     public static func finishedBody(for timer: TimerEntry) -> String {
-        if let label = timer.label {
-            return "\(label) finished"
+        let body = timerSummary(label: timer.label, action: nil, durationSeconds: timer.durationSeconds)
+        if let action = timer.action {
+            return "\(body) finished. Opening \(action.displayName ?? action.target)."
         }
-        return "\(shortDuration(timer.durationSeconds)) timer finished"
+        return "\(body) finished"
     }
 }

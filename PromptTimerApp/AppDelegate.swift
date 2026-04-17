@@ -16,6 +16,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var wakeMonitor: WakeMonitor?
     private var hotkeyManager: HotkeyManager?
     private let launchManager = LaunchManager()
+    private let applicationLauncher = ApplicationLauncher()
     private var lastLaunchAtLogin: Bool?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -58,6 +59,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     notificationManager.sendCompletionNotification(
                         for: timer, playSound: prefs.playSoundOnCompletion, soundName: prefs.completionSound
                     )
+                    if let action = timer.action {
+                        self.applicationLauncher.perform(action)
+                    }
                 }
                 self.completionOverlayController?.present(
                     for: timers,
@@ -132,7 +136,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             }
 
             notificationManager.requestAuthorizationIfNeeded()
-            let timer = timerManager.startTimer(durationSeconds: durationSeconds, label: command.label)
+            let action: TimerAction?
+            do {
+                action = try applicationLauncher.validatedAction(for: command.action)
+            } catch {
+                return .failure(error.localizedDescription)
+            }
+
+            let timer = timerManager.startTimer(durationSeconds: durationSeconds, label: command.label, action: action)
             let message = OutputMessages.started(timer: timer)
             return .success(message, timers: timerManager.snapshots())
 
@@ -190,15 +201,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         if quickAddWindowController == nil {
             let controller = QuickAddWindowController()
-            controller.onStart = { rawInput in
+            controller.onStart = { [weak self] rawInput in
+                guard let self else {
+                    return
+                }
                 let tokens = rawInput.split(whereSeparator: \.isWhitespace).map(String.init)
-                let (seconds, remaining) = try DurationParser.parseTokens(tokens)
-                let label = remaining.joined(separator: " ")
-                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                let prompt = try TimerPromptParser.parse(tokens: tokens)
+                let action = try self.applicationLauncher.validatedAction(for: prompt.action)
                 notificationManager.requestAuthorizationIfNeeded()
                 _ = timerManager.startTimer(
-                    durationSeconds: seconds,
-                    label: label.isEmpty ? nil : label
+                    durationSeconds: prompt.durationSeconds,
+                    label: prompt.label,
+                    action: action
                 )
             }
             quickAddWindowController = controller
@@ -232,6 +246,9 @@ private enum OutputMessages {
         var message = "Started timer for \(TimeFormatting.shortDuration(timer.durationSeconds))"
         if let label = timer.label {
             message += " - \(label)"
+        }
+        if let action = timer.action {
+            message += " (\(action.summary))"
         }
         return message
     }

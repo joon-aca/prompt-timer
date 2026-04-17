@@ -13,6 +13,32 @@ import Testing
     #expect(command.label == "deep work")
 }
 
+@Test func parsesStartCommandWithLaunchAction() throws {
+    let parsed = try CLIParser.parse(arguments: ["10:30am", "team", "call", "launch", "zoom"])
+    guard case let .ipc(command) = parsed else {
+        Issue.record("Expected IPC command")
+        return
+    }
+
+    #expect(command.command == .start)
+    #expect(command.durationSeconds != nil)
+    #expect(command.label == "team call")
+    #expect(command.action == .launchApplication(target: "zoom"))
+}
+
+@Test func parsesActionFirstCommandWithSynonym() throws {
+    let parsed = try CLIParser.parse(arguments: ["start", "zoom", "in", "30min", "for", "team", "call"])
+    guard case let .ipc(command) = parsed else {
+        Issue.record("Expected IPC command")
+        return
+    }
+
+    #expect(command.command == .start)
+    #expect(command.durationSeconds == 1800)
+    #expect(command.label == "team call")
+    #expect(command.action == .launchApplication(target: "zoom"))
+}
+
 @Test func parsesListStatusAndHelp() throws {
     #expect(try CLIParser.parse(arguments: ["list"]) == .ipc(.list()))
     #expect(try CLIParser.parse(arguments: ["ls"]) == .ipc(.list()))

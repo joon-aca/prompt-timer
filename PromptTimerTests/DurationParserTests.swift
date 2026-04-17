@@ -6,9 +6,13 @@ import Testing
 @Test func parsesValidDurations() throws {
     #expect(try DurationParser.parse("10") == 600)
     #expect(try DurationParser.parse("10m") == 600)
+    #expect(try DurationParser.parse("10min") == 600)
     #expect(try DurationParser.parse("30s") == 30)
+    #expect(try DurationParser.parse("30sec") == 30)
     #expect(try DurationParser.parse("1h") == 3600)
+    #expect(try DurationParser.parse("2hrs") == 7200)
     #expect(try DurationParser.parse("1h30m") == 5400)
+    #expect(try DurationParser.parse("1hr30min") == 5400)
     #expect(try DurationParser.parse("2m15s") == 135)
     #expect(try DurationParser.parse("1h2m3s") == 3723)
 }

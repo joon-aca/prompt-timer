@@ -13,6 +13,7 @@ import Testing
             TimerEntry(
                 id: "abc123",
                 label: "focus",
+                action: .launchApplication(target: "us.zoom.xos", displayName: "Zoom"),
                 createdAt: Date(timeIntervalSince1970: 0),
                 dueAt: Date(timeIntervalSince1970: 100),
                 durationSeconds: 60

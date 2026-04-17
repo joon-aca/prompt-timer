@@ -38,10 +38,11 @@ public final class TimerManager {
         onStateChange?(state)
     }
 
-    public func startTimer(durationSeconds: Int, label: String?) -> TimerEntry {
+    public func startTimer(durationSeconds: Int, label: String?, action: TimerAction? = nil) -> TimerEntry {
         let creationDate = now()
         let timer = TimerEntry(
             label: label,
+            action: action,
             createdAt: creationDate,
             dueAt: creationDate.addingTimeInterval(TimeInterval(durationSeconds)),
             durationSeconds: durationSeconds,
@@ -132,7 +133,11 @@ public final class TimerManager {
             return "No active timers"
         }
 
-        let label = TimeFormatting.timerName(label: nextTimer.label, durationSeconds: nextTimer.durationSeconds)
+        let label = TimeFormatting.timerSummary(
+            label: nextTimer.label,
+            action: nextTimer.action,
+            durationSeconds: nextTimer.durationSeconds
+        )
         let remaining = TimeFormatting.shortDuration(nextTimer.remainingSeconds(referenceDate: currentDate))
         return "\(timers.count) active timer(s). Next due: \(label) in \(remaining)"
     }
@@ -143,6 +148,7 @@ public final class TimerManager {
             IPCTimerSnapshot(
                 id: $0.id,
                 label: $0.label,
+                action: $0.action,
                 durationSeconds: $0.durationSeconds,
                 remainingSeconds: $0.remainingSeconds(referenceDate: currentDate),
                 dueAt: $0.dueAt,

@@ -3,6 +3,7 @@ import Foundation
 public struct IPCTimerSnapshot: Codable, Equatable, Identifiable, Sendable {
     public var id: String
     public var label: String?
+    public var action: TimerAction?
     public var durationSeconds: Int
     public var remainingSeconds: Int
     public var dueAt: Date
@@ -11,6 +12,7 @@ public struct IPCTimerSnapshot: Codable, Equatable, Identifiable, Sendable {
     public init(
         id: String,
         label: String?,
+        action: TimerAction? = nil,
         durationSeconds: Int,
         remainingSeconds: Int,
         dueAt: Date,
@@ -18,6 +20,7 @@ public struct IPCTimerSnapshot: Codable, Equatable, Identifiable, Sendable {
     ) {
         self.id = id
         self.label = label
+        self.action = action
         self.durationSeconds = durationSeconds
         self.remainingSeconds = remainingSeconds
         self.dueAt = dueAt

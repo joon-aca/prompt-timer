@@ -14,22 +14,25 @@ public struct IPCCommand: Codable, Equatable, Sendable {
     public var command: IPCCommandKind
     public var durationSeconds: Int?
     public var label: String?
+    public var action: TimerAction?
     public var id: String?
 
     public init(
         command: IPCCommandKind,
         durationSeconds: Int? = nil,
         label: String? = nil,
+        action: TimerAction? = nil,
         id: String? = nil
     ) {
         self.command = command
         self.durationSeconds = durationSeconds
         self.label = label
+        self.action = action
         self.id = id
     }
 
-    public static func start(durationSeconds: Int, label: String?) -> IPCCommand {
-        IPCCommand(command: .start, durationSeconds: durationSeconds, label: label)
+    public static func start(durationSeconds: Int, label: String?, action: TimerAction? = nil) -> IPCCommand {
+        IPCCommand(command: .start, durationSeconds: durationSeconds, label: label, action: action)
     }
 
     public static func list() -> IPCCommand {

@@ -19,7 +19,7 @@ public enum DurationParserError: LocalizedError, Equatable {
 
 public enum DurationParser {
     public static func parse(_ rawValue: String) throws -> Int {
-        let value = rawValue.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let value = normalizeUnits(in: rawValue.trimmingCharacters(in: .whitespacesAndNewlines).lowercased())
         guard !value.isEmpty else {
             throw DurationParserError.blank
         }
@@ -215,6 +215,27 @@ public enum DurationParser {
         }
         let seconds = Int(targetDate.timeIntervalSince(now))
         return seconds > 0 ? seconds : nil
+    }
+
+    private static func normalizeUnits(in value: String) -> String {
+        let replacements = [
+            ("hours", "h"),
+            ("hour", "h"),
+            ("hrs", "h"),
+            ("hr", "h"),
+            ("minutes", "m"),
+            ("minute", "m"),
+            ("mins", "m"),
+            ("min", "m"),
+            ("seconds", "s"),
+            ("second", "s"),
+            ("secs", "s"),
+            ("sec", "s"),
+        ]
+
+        return replacements.reduce(value) { partial, replacement in
+            partial.replacingOccurrences(of: replacement.0, with: replacement.1)
+        }
     }
 
     private static func amountError(for rawValue: String, currentDigits: String) -> Error {

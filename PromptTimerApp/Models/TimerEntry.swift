@@ -3,6 +3,7 @@ import Foundation
 public struct TimerEntry: Codable, Equatable, Identifiable, Sendable {
     public var id: String
     public var label: String?
+    public var action: TimerAction?
     public var createdAt: Date
     public var dueAt: Date
     public var durationSeconds: Int
@@ -11,6 +12,7 @@ public struct TimerEntry: Codable, Equatable, Identifiable, Sendable {
     public init(
         id: String? = nil,
         label: String? = nil,
+        action: TimerAction? = nil,
         createdAt: Date = Date(),
         dueAt: Date,
         durationSeconds: Int,
@@ -18,6 +20,7 @@ public struct TimerEntry: Codable, Equatable, Identifiable, Sendable {
     ) {
         self.id = id ?? Self.makeID()
         self.label = label?.trimmingCharacters(in: .whitespacesAndNewlines).nilIfEmpty
+        self.action = action
         self.createdAt = createdAt
         self.dueAt = dueAt
         self.durationSeconds = durationSeconds

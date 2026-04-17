@@ -52,19 +52,11 @@ public enum CLIParser {
             return .ipc(.cancel(id: value))
         default:
             do {
-                let (durationSeconds, remaining) = try DurationParser.parseTokens(tokens)
-                let label = remaining.joined(separator: " ").nilIfEmpty
-                return .ipc(.start(durationSeconds: durationSeconds, label: label))
+                let prompt = try TimerPromptParser.parse(tokens: tokens)
+                return .ipc(.start(durationSeconds: prompt.durationSeconds, label: prompt.label, action: prompt.action))
             } catch {
                 throw CLIParserError.invalidDuration(first)
             }
         }
-    }
-}
-
-private extension String {
-    var nilIfEmpty: String? {
-        let trimmed = trimmingCharacters(in: .whitespacesAndNewlines)
-        return trimmed.isEmpty ? nil : trimmed
     }
 }

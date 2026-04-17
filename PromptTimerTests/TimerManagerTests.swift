@@ -78,11 +78,11 @@ import Testing
     manager.reconcile(referenceDate: currentTime)
 
     _ = manager.startTimer(durationSeconds: 300, label: "tea")
-    currentTime = Date(timeIntervalSince1970: 1200)
+    currentTime = Date(timeIntervalSince1970: 1_200)
     manager.reconcile(referenceDate: currentTime)
 
     _ = manager.startTimer(durationSeconds: 180, label: "focus")
-    currentTime = Date(timeIntervalSince1970: 1500)
+    currentTime = Date(timeIntervalSince1970: 1_500)
     manager.reconcile(referenceDate: currentTime)
 
     let recentTimers = manager.listRecentTimers()
@@ -100,4 +100,24 @@ import Testing
     _ = manager.startTimer(durationSeconds: 180, label: nil)
 
     #expect(manager.statusMessage(referenceDate: Date(timeIntervalSince1970: 0)).contains("3m timer"))
+}
+
+@MainActor
+@Test func includesLaunchActionInStatusAndSnapshots() throws {
+    let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+    let tempStore = try TimerStore(fileManager: .default, baseDirectory: directory)
+    let manager = TimerManager(store: tempStore, now: { Date(timeIntervalSince1970: 0) })
+
+    manager.load()
+    _ = manager.startTimer(
+        durationSeconds: 180,
+        label: "team call",
+        action: .launchApplication(target: "us.zoom.xos", displayName: "Zoom")
+    )
+
+    let status = manager.statusMessage(referenceDate: Date(timeIntervalSince1970: 0))
+    let snapshot = try #require(manager.snapshots(referenceDate: Date(timeIntervalSince1970: 0)).first)
+
+    #expect(status.contains("team call (launch Zoom)"))
+    #expect(snapshot.action == .launchApplication(target: "us.zoom.xos", displayName: "Zoom"))
 }
