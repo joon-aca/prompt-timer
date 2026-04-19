@@ -7,11 +7,12 @@ final class QuickAddWindowController: NSWindowController, NSTextFieldDelegate {
     var onStart: ((String) throws -> Void)?
 
     private let inputField = NSTextField(string: "")
+    private let hintLabel = NSTextField(labelWithString: "Examples: 25 deep work, 30s tea, 10:30am team call")
     private let errorLabel = NSTextField(labelWithString: "")
 
     init() {
         let panelWidth: CGFloat = 560
-        let panelHeight: CGFloat = 58
+        let panelHeight: CGFloat = 84
 
         let panel = NSPanel(
             contentRect: NSRect(x: 0, y: 0, width: panelWidth, height: panelHeight),
@@ -108,6 +109,11 @@ final class QuickAddWindowController: NSWindowController, NSTextFieldDelegate {
         inputRow.alignment = .centerY
         inputRow.edgeInsets = NSEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 
+        hintLabel.translatesAutoresizingMaskIntoConstraints = false
+        hintLabel.font = .systemFont(ofSize: 12)
+        hintLabel.textColor = .secondaryLabelColor
+        hintLabel.lineBreakMode = .byTruncatingTail
+
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
         errorLabel.font = .systemFont(ofSize: 12)
         errorLabel.textColor = .systemRed
@@ -124,8 +130,10 @@ final class QuickAddWindowController: NSWindowController, NSTextFieldDelegate {
         stack.spacing = 0
         stack.addArrangedSubview(inputRow)
         stack.addArrangedSubview(separator)
+        stack.addArrangedSubview(hintLabel)
         stack.addArrangedSubview(errorLabel)
-        stack.setCustomSpacing(8, after: separator)
+        stack.setCustomSpacing(6, after: separator)
+        stack.setCustomSpacing(4, after: hintLabel)
 
         vibrancy.addSubview(stack)
 
@@ -137,14 +145,24 @@ final class QuickAddWindowController: NSWindowController, NSTextFieldDelegate {
             stack.trailingAnchor.constraint(equalTo: vibrancy.trailingAnchor),
             stack.topAnchor.constraint(equalTo: vibrancy.topAnchor),
             stack.bottomAnchor.constraint(equalTo: vibrancy.bottomAnchor, constant: -8),
+            hintLabel.leadingAnchor.constraint(equalTo: vibrancy.leadingAnchor, constant: 16),
+            hintLabel.trailingAnchor.constraint(equalTo: vibrancy.trailingAnchor, constant: -16),
             errorLabel.leadingAnchor.constraint(equalTo: vibrancy.leadingAnchor, constant: 50),
             errorLabel.trailingAnchor.constraint(equalTo: vibrancy.trailingAnchor, constant: -16),
         ])
     }
 
     private func submitInput() {
+        let trimmedInput = inputField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedInput.isEmpty else {
+            errorLabel.stringValue = "Type a timer like 25 deep work or 10:30am team call."
+            errorLabel.isHidden = false
+            resizePanel(showingError: true)
+            return
+        }
+
         do {
-            try onStart?(inputField.stringValue)
+            try onStart?(trimmedInput)
             inputField.stringValue = ""
             errorLabel.stringValue = ""
             errorLabel.isHidden = true
@@ -167,7 +185,7 @@ final class QuickAddWindowController: NSWindowController, NSTextFieldDelegate {
 
     private func resizePanel(showingError: Bool) {
         guard let panel = window else { return }
-        let height: CGFloat = showingError ? 82 : 58
+        let height: CGFloat = showingError ? 106 : 84
         var frame = panel.frame
         let delta = height - frame.height
         frame.size.height = height

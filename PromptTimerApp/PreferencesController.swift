@@ -6,14 +6,19 @@ import UserNotifications
 @MainActor
 final class PreferencesController: NSWindowController {
     var onPreferencesChanged: ((Preferences) -> Void)?
+    var onTestNotification: (() -> Void)?
 
     private let alwaysShowButton = NSButton(checkboxWithTitle: "Always show menu bar item", target: nil, action: nil)
     private let showNextButton = NSButton(checkboxWithTitle: "Show next timer in menu bar", target: nil, action: nil)
     private let playSoundButton = NSButton(checkboxWithTitle: "Play sound on completion", target: nil, action: nil)
     private let launchAtLoginButton = NSButton(checkboxWithTitle: "Launch at login", target: nil, action: nil)
+    private let launchStatusLabel = NSTextField(labelWithString: "")
     private let historyField = NSTextField(string: "")
     private let historyStepper = NSStepper()
     private let shortcutButton = ShortcutRecorderButton()
+    private let shortcutClearButton = NSButton(title: "Clear", target: nil, action: nil)
+    private let hotkeyStatusLabel = NSTextField(labelWithString: "")
+    private let hotkeyHintLabel = NSTextField(labelWithString: "Press the shortcut you want. Delete clears it. Esc cancels recording.")
     private let soundPopup = NSPopUpButton(frame: .zero, pullsDown: false)
     private let soundPreviewButton = NSButton(title: "\u{25B6}", target: nil, action: nil)
     private let celebrationPopup = NSPopUpButton(frame: .zero, pullsDown: false)
@@ -22,6 +27,9 @@ final class PreferencesController: NSWindowController {
     private let cliInstallButton = NSButton(title: "Install CLI", target: nil, action: nil)
     private let cliStatusLabel = NSTextField(labelWithString: "")
     private let notificationStatusLabel = NSTextField(labelWithString: "")
+    private let notificationTestButton = NSButton(title: "Test Notification", target: nil, action: nil)
+    private var launchStatusText = "Prompt Timer stays off until you turn on launch at login."
+    private var hotkeyStatusText = "No global shortcut set. Use the menu bar or set one here."
 
     var preferences = Preferences() {
         didSet {
@@ -31,7 +39,7 @@ final class PreferencesController: NSWindowController {
 
     init() {
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 460, height: 424),
+            contentRect: NSRect(x: 0, y: 0, width: 500, height: 520),
             styleMask: [.titled, .closable],
             backing: .buffered,
             defer: false
@@ -56,16 +64,18 @@ final class PreferencesController: NSWindowController {
     }
 
     func updateNotificationStatus(_ status: UNAuthorizationStatus) {
-        switch status {
-        case .authorized, .provisional:
-            notificationStatusLabel.stringValue = "Notifications: enabled"
-        case .denied:
-            notificationStatusLabel.stringValue = "Notifications: enable in System Settings → Notifications"
-        case .notDetermined:
-            notificationStatusLabel.stringValue = "Notifications: will be requested on first timer"
-        @unknown default:
-            notificationStatusLabel.stringValue = "Notifications: unknown status"
-        }
+        notificationStatusLabel.stringValue = NotificationManager.statusMessage(for: status)
+    }
+
+    func updateLaunchAtLoginStatus(_ status: LaunchAtLoginState) {
+        launchStatusText = status.detail
+        launchStatusLabel.stringValue = launchStatusText
+    }
+
+    func updateHotkeyStatus(_ status: HotkeyRegistrationState) {
+        hotkeyStatusText = status.detail
+        hotkeyStatusLabel.stringValue = hotkeyStatusText
+        shortcutClearButton.isEnabled = preferences.hotkeyKeyCode != 0 && preferences.hotkeyModifiers != 0
     }
 
     private func buildUI() {
@@ -81,6 +91,11 @@ final class PreferencesController: NSWindowController {
         playSoundButton.action = #selector(preferenceChanged)
         launchAtLoginButton.target = self
         launchAtLoginButton.action = #selector(preferenceChanged)
+        launchStatusLabel.font = .systemFont(ofSize: 11)
+        launchStatusLabel.textColor = .secondaryLabelColor
+        launchStatusLabel.lineBreakMode = .byWordWrapping
+        launchStatusLabel.cell?.wraps = true
+        launchStatusLabel.cell?.usesSingleLineMode = false
 
         historyField.isEditable = false
         historyField.isBordered = true
@@ -103,9 +118,27 @@ final class PreferencesController: NSWindowController {
             guard let self else { return }
             self.preferences.hotkeyKeyCode = keyCode
             self.preferences.hotkeyModifiers = modifiers
+            self.shortcutClearButton.isEnabled = keyCode != 0 && modifiers != 0
             self.onPreferencesChanged?(self.preferences)
         }
-        let shortcutRow = NSStackView(views: [shortcutLabel, shortcutButton])
+        shortcutClearButton.bezelStyle = .rounded
+        shortcutClearButton.target = self
+        shortcutClearButton.action = #selector(clearShortcut)
+        hotkeyStatusLabel.font = .systemFont(ofSize: 11)
+        hotkeyStatusLabel.textColor = .secondaryLabelColor
+        hotkeyStatusLabel.lineBreakMode = .byWordWrapping
+        hotkeyStatusLabel.cell?.wraps = true
+        hotkeyStatusLabel.cell?.usesSingleLineMode = false
+        hotkeyHintLabel.font = .systemFont(ofSize: 11)
+        hotkeyHintLabel.textColor = .secondaryLabelColor
+        hotkeyHintLabel.lineBreakMode = .byWordWrapping
+        hotkeyHintLabel.cell?.wraps = true
+        hotkeyHintLabel.cell?.usesSingleLineMode = false
+        let shortcutControls = NSStackView(views: [shortcutButton, shortcutClearButton])
+        shortcutControls.orientation = .horizontal
+        shortcutControls.alignment = .centerY
+        shortcutControls.spacing = 8
+        let shortcutRow = NSStackView(views: [shortcutLabel, shortcutControls])
         shortcutRow.orientation = .horizontal
         shortcutRow.alignment = .centerY
         shortcutRow.spacing = 8
@@ -153,6 +186,18 @@ final class PreferencesController: NSWindowController {
         cliRow.orientation = .horizontal
         cliRow.alignment = .centerY
         cliRow.spacing = 8
+        notificationStatusLabel.font = .systemFont(ofSize: 11)
+        notificationStatusLabel.textColor = .secondaryLabelColor
+        notificationStatusLabel.lineBreakMode = .byWordWrapping
+        notificationStatusLabel.cell?.wraps = true
+        notificationStatusLabel.cell?.usesSingleLineMode = false
+        notificationTestButton.bezelStyle = .rounded
+        notificationTestButton.target = self
+        notificationTestButton.action = #selector(sendTestNotification)
+        let notificationRow = NSStackView(views: [notificationTestButton, notificationStatusLabel])
+        notificationRow.orientation = .horizontal
+        notificationRow.alignment = .centerY
+        notificationRow.spacing = 8
 
         let stack = NSStackView()
         stack.orientation = .vertical
@@ -167,10 +212,13 @@ final class PreferencesController: NSWindowController {
         stack.addArrangedSubview(celebrationRow)
         stack.addArrangedSubview(funEffectRow)
         stack.addArrangedSubview(launchAtLoginButton)
+        stack.addArrangedSubview(launchStatusLabel)
         stack.addArrangedSubview(historyRow)
         stack.addArrangedSubview(shortcutRow)
+        stack.addArrangedSubview(hotkeyStatusLabel)
+        stack.addArrangedSubview(hotkeyHintLabel)
         stack.addArrangedSubview(cliRow)
-        stack.addArrangedSubview(notificationStatusLabel)
+        stack.addArrangedSubview(notificationRow)
 
         contentView.addSubview(stack)
 
@@ -199,6 +247,9 @@ final class PreferencesController: NSWindowController {
             funEffectPopup.selectItem(at: index)
         }
         funEffectPopup.isEnabled = preferences.completionCelebrationStyle == .fun
+        launchStatusLabel.stringValue = launchStatusText
+        hotkeyStatusLabel.stringValue = hotkeyStatusText
+        shortcutClearButton.isEnabled = preferences.hotkeyKeyCode != 0 && preferences.hotkeyModifiers != 0
         refreshCLIStatus()
     }
 
@@ -252,6 +303,18 @@ final class PreferencesController: NSWindowController {
         }
         cliStatusLabel.stringValue = message
         refreshCLIStatus()
+    }
+
+    @objc private func clearShortcut() {
+        preferences.hotkeyKeyCode = 0
+        preferences.hotkeyModifiers = 0
+        shortcutButton.display(keyCode: 0, modifiers: 0)
+        shortcutClearButton.isEnabled = false
+        onPreferencesChanged?(preferences)
+    }
+
+    @objc private func sendTestNotification() {
+        onTestNotification?()
     }
 
     @objc private func preferenceChanged() {

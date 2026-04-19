@@ -89,10 +89,16 @@ This repository includes a Swift package and an XcodeGen project spec. The packa
 
 1. Point `xcode-select` at `/Applications/Xcode.app`
 2. Install `xcodegen` if needed
-3. Run `xcodegen generate`
-4. Open `PromptTimer.xcodeproj`
-5. Set signing and bundle identifiers
-6. Build `PromptTimerApp`
+3. Run `make install`
+
+If you want the project generated without installing, run `make project`.
+
+For manual Xcode work:
+
+1. Run `xcodegen generate`
+2. Open `PromptTimer.xcodeproj`
+3. Set signing and bundle identifiers
+4. Build `PromptTimerApp`
 
 For a local install on your own Mac, prefer a consistent Apple Development signing identity in Xcode and copy the built app into `/Applications`. The `scripts/install.sh` helper does that for a Release build and preserves the existing signature instead of re-signing ad hoc.
 

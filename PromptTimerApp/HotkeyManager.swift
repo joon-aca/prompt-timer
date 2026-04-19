@@ -1,6 +1,11 @@
 import Carbon
 import AppKit
 
+struct HotkeyRegistrationState: Equatable {
+    let isRegistered: Bool
+    let detail: String
+}
+
 @MainActor
 final class HotkeyManager {
     nonisolated(unsafe) private var hotkeyRef: EventHotKeyRef?
@@ -8,6 +13,7 @@ final class HotkeyManager {
     private var registeredKeyCode: UInt32 = 0
     private var registeredModifiers: UInt32 = 0
     private let action: () -> Void
+    var onStatusChange: ((HotkeyRegistrationState) -> Void)?
 
     init(action: @escaping () -> Void) {
         self.action = action
@@ -22,15 +28,36 @@ final class HotkeyManager {
         }
     }
 
-    func register(keyCode: UInt32, modifiers: UInt32) {
-        guard keyCode != registeredKeyCode || modifiers != registeredModifiers else { return }
-        unregister()
+    @discardableResult
+    func register(keyCode: UInt32, modifiers: UInt32) -> HotkeyRegistrationState {
+        guard keyCode != 0, modifiers != 0 else {
+            unregister()
+            return publishStatus(
+                HotkeyRegistrationState(
+                    isRegistered: false,
+                    detail: "No global shortcut set. Use the menu bar or set one here."
+                )
+            )
+        }
+
+        guard keyCode != registeredKeyCode || modifiers != registeredModifiers || hotkeyRef == nil else {
+            return refreshStatus()
+        }
+
+        unregister(notify: false)
 
         let hotkeyID = EventHotKeyID(signature: fourCharCode("PTMR"), id: 1)
 
         var ref: EventHotKeyRef?
         let status = RegisterEventHotKey(keyCode, modifiers, hotkeyID, GetApplicationEventTarget(), 0, &ref)
-        guard status == noErr else { return }
+        guard status == noErr else {
+            return publishStatus(
+                HotkeyRegistrationState(
+                    isRegistered: false,
+                    detail: "That shortcut is unavailable. Pick a different combination."
+                )
+            )
+        }
         hotkeyRef = ref
         registeredKeyCode = keyCode
         registeredModifiers = modifiers
@@ -38,14 +65,48 @@ final class HotkeyManager {
         if eventHandlerRef == nil {
             installEventHandler()
         }
+
+        return publishStatus(
+            HotkeyRegistrationState(
+                isRegistered: true,
+                detail: "Quick Add shortcut: \(HotkeyDisplay.string(keyCode: keyCode, modifiers: modifiers))"
+            )
+        )
     }
 
-    func unregister() {
+    @discardableResult
+    func refreshStatus() -> HotkeyRegistrationState {
+        if hotkeyRef != nil, registeredKeyCode != 0, registeredModifiers != 0 {
+            return publishStatus(
+                HotkeyRegistrationState(
+                    isRegistered: true,
+                    detail: "Quick Add shortcut: \(HotkeyDisplay.string(keyCode: registeredKeyCode, modifiers: registeredModifiers))"
+                )
+            )
+        }
+
+        return publishStatus(
+            HotkeyRegistrationState(
+                isRegistered: false,
+                detail: "No global shortcut set. Use the menu bar or set one here."
+            )
+        )
+    }
+
+    func unregister(notify: Bool = true) {
         if let ref = hotkeyRef {
             UnregisterEventHotKey(ref)
             hotkeyRef = nil
             registeredKeyCode = 0
             registeredModifiers = 0
+        }
+        if notify {
+            _ = publishStatus(
+                HotkeyRegistrationState(
+                    isRegistered: false,
+                    detail: "No global shortcut set. Use the menu bar or set one here."
+                )
+            )
         }
     }
 
@@ -89,6 +150,12 @@ final class HotkeyManager {
         )
 
         eventHandlerRef = handlerRef
+    }
+
+    @discardableResult
+    private func publishStatus(_ status: HotkeyRegistrationState) -> HotkeyRegistrationState {
+        onStatusChange?(status)
+        return status
     }
 }
 

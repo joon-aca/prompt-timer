@@ -111,6 +111,25 @@ final class StatusItemController: NSObject {
         quickAdd.target = self
         menu.addItem(quickAdd)
 
+        if let nextTimer = timerManager.nextDueTimer() {
+            let summary = NSMenuItem(
+                title: "Next: \(TimeFormatting.timerName(label: nextTimer.label, durationSeconds: nextTimer.durationSeconds)) in \(TimeFormatting.shortDuration(nextTimer.remainingSeconds()))",
+                action: nil,
+                keyEquivalent: ""
+            )
+            summary.isEnabled = false
+            menu.addItem(summary)
+        } else if let recentTimer = state.recentTimers.first {
+            let restartLast = NSMenuItem(
+                title: "Restart \(TimeFormatting.timerName(label: recentTimer.label, durationSeconds: recentTimer.durationSeconds))",
+                action: #selector(restartRecentTimer(_:)),
+                keyEquivalent: ""
+            )
+            restartLast.target = self
+            restartLast.representedObject = recentTimer.id
+            menu.addItem(restartLast)
+        }
+
         menu.addItem(.separator())
 
         let activeHeader = NSMenuItem(title: "Active Timers", action: nil, keyEquivalent: "")
@@ -162,7 +181,7 @@ final class StatusItemController: NSObject {
 
         menu.addItem(.separator())
 
-        let cancelTitle = state.activeTimers.count > 1 ? "Cancel Soonest Timer" : "Cancel Current Timer"
+        let cancelTitle = state.activeTimers.count > 1 ? "Cancel Next Timer" : "Cancel Current Timer"
         let cancelNext = NSMenuItem(title: cancelTitle, action: #selector(cancelNextTimer), keyEquivalent: "")
         cancelNext.target = self
         cancelNext.isEnabled = !state.activeTimers.isEmpty

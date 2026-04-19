@@ -18,6 +18,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let launchManager = LaunchManager()
     private let applicationLauncher = ApplicationLauncher()
     private var lastLaunchAtLogin: Bool?
+    private var isReconcilingLaunchAtLoginPreference = false
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         do {
@@ -42,9 +43,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self?.preferencesController?.preferences = state.preferences
                 if state.preferences.launchAtLogin != self?.lastLaunchAtLogin {
                     self?.lastLaunchAtLogin = state.preferences.launchAtLogin
-                    self?.launchManager.applyPreference(state.preferences.launchAtLogin)
+                    if self?.isReconcilingLaunchAtLoginPreference == true {
+                        self?.isReconcilingLaunchAtLoginPreference = false
+                    } else if let status = self?.launchManager.applyPreference(state.preferences.launchAtLogin) {
+                        self?.reconcileLaunchAtLoginPreference(with: status)
+                    }
                 }
-                self?.hotkeyManager?.register(
+                _ = self?.hotkeyManager?.register(
                     keyCode: state.preferences.hotkeyKeyCode,
                     modifiers: state.preferences.hotkeyModifiers
                 )
@@ -105,12 +110,29 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self?.presentQuickAdd()
             }
             self.hotkeyManager = hotkeyManager
+            launchManager.onStatusChange = { [weak self] status in
+                self?.preferencesController?.updateLaunchAtLoginStatus(status)
+            }
+            hotkeyManager.onStatusChange = { [weak self] status in
+                self?.preferencesController?.updateHotkeyStatus(status)
+            }
+            notificationManager.onStatusChange = { [weak self] status in
+                self?.preferencesController?.updateNotificationStatus(status)
+            }
 
             notificationManager.refreshAuthorizationStatus()
+            let launchStatus = launchManager.refreshStatus()
+            lastLaunchAtLogin = launchStatus.isEnabled
+            isReconcilingLaunchAtLoginPreference = true
             wakeMonitor.start()
             try ipcServer.start()
             logger.debug("IPC server started on \(timerStore.socketPath)")
             timerManager.load()
+            reconcileLaunchAtLoginPreference(with: launchStatus)
+            _ = hotkeyManager.register(
+                keyCode: timerManager.state.preferences.hotkeyKeyCode,
+                modifiers: timerManager.state.preferences.hotkeyModifiers
+            )
             statusItemController.refresh(state: timerManager.state)
         } catch {
             NSLog("Prompt Timer failed to start: \(error.localizedDescription)")
@@ -177,11 +199,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return .success("Cancelled \(count) timer(s)")
 
         case .test:
-            notificationManager.requestAuthorizationIfNeeded()
-            notificationManager.sendTestNotification(
-                playSound: timerManager.state.preferences.playSoundOnCompletion,
-                soundName: timerManager.state.preferences.completionSound
-            )
+            notificationManager.requestAuthorizationIfNeeded {
+                notificationManager.sendTestNotification(
+                    playSound: timerManager.state.preferences.playSoundOnCompletion,
+                    soundName: timerManager.state.preferences.completionSound
+                )
+            }
             return .success("Sent test notification")
 
         case .open:
@@ -233,11 +256,48 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     current = preferences
                 }
             }
+            controller.onTestNotification = { [weak self] in
+                guard let self, let timerManager = self.timerManager, let notificationManager = self.notificationManager else {
+                    return
+                }
+                notificationManager.requestAuthorizationIfNeeded {
+                    notificationManager.sendTestNotification(
+                        playSound: timerManager.state.preferences.playSoundOnCompletion,
+                        soundName: timerManager.state.preferences.completionSound
+                    )
+                }
+            }
             preferencesController = controller
         }
 
         preferencesController?.preferences = timerManager.state.preferences
         preferencesController?.present(notificationStatus: notificationManager.authorizationStatus)
+        preferencesController?.updateLaunchAtLoginStatus(launchManager.refreshStatus())
+        if let hotkeyManager {
+            preferencesController?.updateHotkeyStatus(hotkeyManager.refreshStatus())
+        }
+    }
+
+    private func reconcileLaunchAtLoginPreference(with status: LaunchAtLoginState) {
+        guard let timerManager else {
+            lastLaunchAtLogin = status.isEnabled
+            isReconcilingLaunchAtLoginPreference = false
+            return
+        }
+
+        guard timerManager.state.preferences.launchAtLogin != status.isEnabled else {
+            lastLaunchAtLogin = status.isEnabled
+            isReconcilingLaunchAtLoginPreference = false
+            return
+        }
+
+        isReconcilingLaunchAtLoginPreference = true
+        // Force the next onStateChange pass through the reconciliation branch so
+        // the temporary flag is cleared instead of leaking into the next user toggle.
+        lastLaunchAtLogin = nil
+        timerManager.updatePreferences { preferences in
+            preferences.launchAtLogin = status.isEnabled
+        }
     }
 }
 

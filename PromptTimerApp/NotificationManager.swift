@@ -19,15 +19,16 @@ final class NotificationManager {
         }
     }
 
-    func requestAuthorizationIfNeeded() {
-        refreshAuthorizationStatus()
+    func requestAuthorizationIfNeeded(completion: (() -> Void)? = nil) {
         guard authorizationStatus == .notDetermined else {
+            completion?()
             return
         }
 
         center.requestAuthorization(options: [.alert, .sound, .badge]) { [weak self] _, _ in
             Task { @MainActor in
                 self?.refreshAuthorizationStatus()
+                completion?()
             }
         }
     }
@@ -57,6 +58,19 @@ final class NotificationManager {
     func sendTestNotification(playSound: Bool, soundName: String) {
         let timer = TimerEntry(label: "Test timer", dueAt: Date(), durationSeconds: 60)
         sendCompletionNotification(for: timer, playSound: playSound, soundName: soundName)
+    }
+
+    static func statusMessage(for status: UNAuthorizationStatus) -> String {
+        switch status {
+        case .authorized, .provisional:
+            return "Notifications are on. You will get native alerts when timers finish."
+        case .denied:
+            return "Notifications are off. Prompt Timer will still flash in the menu bar and can still play sound locally."
+        case .notDetermined:
+            return "Prompt Timer will ask for notifications the first time you start a timer."
+        @unknown default:
+            return "Notification status is unavailable."
+        }
     }
 
     static func playSound(named name: String) {

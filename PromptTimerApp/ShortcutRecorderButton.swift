@@ -27,7 +27,11 @@ final class ShortcutRecorderButton: NSButton {
     func display(keyCode: UInt32, modifiers: UInt32) {
         currentKeyCode = keyCode
         currentModifiers = modifiers
-        title = HotkeyDisplay.string(keyCode: keyCode, modifiers: modifiers)
+        if keyCode == 0 || modifiers == 0 {
+            title = "Set Shortcut..."
+        } else {
+            title = HotkeyDisplay.string(keyCode: keyCode, modifiers: modifiers)
+        }
     }
 
     @objc private func toggleRecording() {
@@ -40,7 +44,7 @@ final class ShortcutRecorderButton: NSButton {
 
     private func startRecording() {
         isRecording = true
-        title = "Press shortcut..."
+        title = "Press Shortcut..."
 
         localMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { [weak self] event in
             guard let self else { return event }
@@ -50,6 +54,16 @@ final class ShortcutRecorderButton: NSButton {
             // Escape cancels recording
             if event.keyCode == UInt16(kVK_Escape) {
                 self.stopRecording()
+                return nil
+            }
+
+            // Delete clears the shortcut when no modifiers are held.
+            if modifiers.isDisjoint(with: [.command, .control, .option, .shift]),
+               event.keyCode == UInt16(kVK_Delete) || event.keyCode == UInt16(kVK_ForwardDelete) {
+                self.currentKeyCode = 0
+                self.currentModifiers = 0
+                self.stopRecording()
+                self.onShortcutRecorded?(0, 0)
                 return nil
             }
 
@@ -76,7 +90,7 @@ final class ShortcutRecorderButton: NSButton {
             NSEvent.removeMonitor(monitor)
             localMonitor = nil
         }
-        if title == "Press shortcut..." {
+        if title == "Press Shortcut..." {
             display(keyCode: currentKeyCode, modifiers: currentModifiers)
         }
     }
