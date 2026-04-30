@@ -194,7 +194,9 @@ final class CompletionOverlayController {
                 classicPanel.animator().alphaValue = 0
             },
             completionHandler: { [weak self] in
-                self?.classicPanel.orderOut(nil)
+                Task { @MainActor in
+                    self?.classicPanel.orderOut(nil)
+                }
             }
         )
     }
@@ -601,9 +603,11 @@ final class CompletionOverlayController {
                 window.animator().alphaValue = 0
             },
             completionHandler: { [weak self] in
-                self?.resetFunLayers()
-                window.orderOut(nil)
-                window.alphaValue = 1
+                Task { @MainActor in
+                    self?.resetFunLayers()
+                    window.orderOut(nil)
+                    window.alphaValue = 1
+                }
             }
         )
     }

@@ -19,7 +19,7 @@ final class NotificationManager {
         }
     }
 
-    func requestAuthorizationIfNeeded(completion: (() -> Void)? = nil) {
+    func requestAuthorizationIfNeeded(completion: (@MainActor @Sendable () -> Void)? = nil) {
         guard authorizationStatus == .notDetermined else {
             completion?()
             return
