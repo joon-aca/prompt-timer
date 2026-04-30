@@ -7,21 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		062B154D17B21AC4263407A2 /* TimerCLI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFEF4A600E0069FFE80B4 /* TimerCLI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		03CEC4B805AEDC01F68D4312 /* CompletionOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6105F7E599AF0E63807BA0 /* CompletionOverlayController.swift */; };
+		086DE26C88E73FB1AE1B13C0 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE1B34F7264F5C3E2BD20D2 /* NotificationManager.swift */; };
 		0C4B08873F67B4785B980FCA /* TimerPromptParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E3F751B8D20774F0092D079 /* TimerPromptParserTests.swift */; };
 		0FA74BB7325C53562C48850B /* ShortcutRecorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AF8FE3F28AA33FF46DD6A /* ShortcutRecorderButton.swift */; };
 		10392FA18CB5E885C16DDB00 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FC41C444C11462703C6C291 /* Preferences.swift */; };
 		11F8F881581CAB470F541AE6 /* TimerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDED38C5D00677F5F0E0D57 /* TimerStore.swift */; };
 		145F6B253DCB4803715ED3AA /* CLIParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C40D936E7146CC6A21AC7B /* CLIParserTests.swift */; };
+		1560CB0EDF5B0CDF9E89382B /* PromptTimerCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2AAFE764F82E8C24B0D17AB /* PromptTimerCore.framework */; };
+		1566866BA8C7E58333382F5C /* ApplicationLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891443A599AC3A5EBB002A2A /* ApplicationLauncher.swift */; };
 		17E60E912B04CFA617E30DD8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1885A54CE48F2A394D4E9CA /* AppDelegate.swift */; };
 		17EE95894B05DC2AC0746BC0 /* IPCResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B25BE085D1C92644EE41EB /* IPCResponse.swift */; };
 		19C324C01F4D7DBCCEC0BF7D /* PromptTimerCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2AAFE764F82E8C24B0D17AB /* PromptTimerCore.framework */; };
+		1B23363252510B9E4A22F345 /* PromptTimerCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B2AAFE764F82E8C24B0D17AB /* PromptTimerCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		1CA4CF683EF81247D6BEC327 /* QuickAddWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B7A94C5404295490831434 /* QuickAddWindowController.swift */; };
 		1CBF648D59D31BE99E879E85 /* PromptTimerCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B2AAFE764F82E8C24B0D17AB /* PromptTimerCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		202222EA115EFAEB0CCA512A /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 67C9686A3B55DA5D44BC9348 /* AppIcon.icns */; };
+		2030C7B6282967639E56F0C5 /* TimerCLI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFEF4A600E0069FFE80B4 /* TimerCLI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		24488FCB9CD7CC66CACDD269 /* PromptTimerCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2AAFE764F82E8C24B0D17AB /* PromptTimerCore.framework */; };
 		266BA3BAE5A7F986C33EB839 /* TimerCLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFEF4A600E0069FFE80B4 /* TimerCLI.framework */; };
 		2D5ECEDE7A8802DB51400CA1 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EA9F7FCA703E287EA9BA4D6 /* AppState.swift */; };
 		3679678D7C2DB60D67DA5AF2 /* PromptTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533E03F6E9A7A6B433EBD7B8 /* PromptTimerApp.swift */; };
+		385D2093F5A55DEFE902CD63 /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C157023578C06954EB6334D /* PreferencesController.swift */; };
 		38AE37D68A30B654A11655A0 /* TimerCLI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFEF4A600E0069FFE80B4 /* TimerCLI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		39E2D9B42B622B4AD2817EFC /* PromptTimerCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2AAFE764F82E8C24B0D17AB /* PromptTimerCore.framework */; };
 		3C984DB608980FC077683AE7 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDDE18598092A5DE759C6120 /* main.swift */; };
@@ -29,37 +36,45 @@
 		41BD4939807CF29C2E72D5BB /* HotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BE1A8B940CF3CD08EF5A1C /* HotkeyManager.swift */; };
 		47C6327CE17A4F67CE7C6665 /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860E00214C34CFDDAF9E3BB8 /* TimerState.swift */; };
 		485040FCD71F965AF3F85E58 /* DurationParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA610B44B4A1027AED284862 /* DurationParserTests.swift */; };
+		4962CA9D9743B90C86A13F7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1885A54CE48F2A394D4E9CA /* AppDelegate.swift */; };
 		4A0A554A4CC2F98A36E6411C /* ApplicationLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 891443A599AC3A5EBB002A2A /* ApplicationLauncher.swift */; };
 		532D89F2791B63F12B045948 /* TimerEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27BDF501276CF2A7EDD23DF1 /* TimerEntry.swift */; };
+		5380519B6463F8798594E8C4 /* IPCServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D48AF0A9F34E694B8B8CA3 /* IPCServer.swift */; };
 		58090BC1E3B44132E9082A91 /* LaunchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9BF3DCA633CED821F79C3F /* LaunchManager.swift */; };
 		58209ACB16F17EBBDC6C24BF /* TimerStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EDDFC7D3BB64765A59B5EC78 /* TimerStoreTests.swift */; };
 		596A3D0DC99A1CEBCDEBF7EC /* CompletionOverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6105F7E599AF0E63807BA0 /* CompletionOverlayController.swift */; };
+		5F1F16108D3320882F805892 /* WakeMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76774A7F6322EAB4E9C38B72 /* WakeMonitor.swift */; };
 		6234DEB2A6AE73F01FB48494 /* TimeFormatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842813CBD9F9C33306385EDB /* TimeFormatting.swift */; };
-		6C8475407CE0E0B4CCC0509B /* timer in Resources */ = {isa = PBXBuildFile; fileRef = EAED3D698739025C56FDECFB /* timer */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7044F5FC074BC515EE2E46D6 /* WakeMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76774A7F6322EAB4E9C38B72 /* WakeMonitor.swift */; };
 		75C680B17587832B79B06D9C /* TimerAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C22D6FCE73D9A79BE9C58A /* TimerAction.swift */; };
 		7704597C8E61CD0DFF498717 /* TimerPromptParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA64E2B21D4A479666B899E /* TimerPromptParser.swift */; };
+		79C2D45BE030209033356869 /* QuickAddWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06B7A94C5404295490831434 /* QuickAddWindowController.swift */; };
 		7C40D3E996F3FC816B6999AC /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAACF5AA18A615944FF9CCE9 /* Logger.swift */; };
 		7D752E74C2B5EACB54A76137 /* TimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B044D451C7C8AC59E732A21 /* TimerManager.swift */; };
 		7E381EC180C64EBAB54EA1F8 /* AgentLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37EE011D11315108C8BD8924 /* AgentLauncher.swift */; };
 		837792E2AAFC9C542BE2B814 /* VerboseLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DF27648D24E2D0EED8817B /* VerboseLogger.swift */; };
 		8B7E0843EC57196B368CF3A9 /* PromptTimerCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2AAFE764F82E8C24B0D17AB /* PromptTimerCore.framework */; };
+		939A8A5A06F8FF4EF0E64109 /* HotkeyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BE1A8B940CF3CD08EF5A1C /* HotkeyManager.swift */; };
 		975A7876EAFC4F2726D6E944 /* IPCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E3FAF536169E6C44CC2B941 /* IPCClient.swift */; };
+		9DF6A07471D111F6E6AD69F2 /* ShortcutRecorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400AF8FE3F28AA33FF46DD6A /* ShortcutRecorderButton.swift */; };
 		A3398C04C1F34E2A746AA1C0 /* AtomicFileStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01BE368AF9072FAE782D3A8 /* AtomicFileStore.swift */; };
-		AA965CC7A8AC8E0218BD9C11 /* CLIInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0643325588B4BFB0187300 /* CLIInstaller.swift */; };
+		A6DF7458D6CE4A639F9DCE33 /* PromptTimerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533E03F6E9A7A6B433EBD7B8 /* PromptTimerApp.swift */; };
 		B4BAC86DCBBC165B50281792 /* AppIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 67C9686A3B55DA5D44BC9348 /* AppIcon.icns */; };
+		B5ED6B4EC84AD5AFDC38124C /* LaunchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9BF3DCA633CED821F79C3F /* LaunchManager.swift */; };
 		C0E1D0225655A188B48D72F0 /* IPCProtocolTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF860E95084F81FA8158B421 /* IPCProtocolTests.swift */; };
 		CFAD5C615AD520A3963BCFE5 /* DurationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70003A2EC7FC7FA30156B7E7 /* DurationParser.swift */; };
 		D08A747880892D807F23E8C5 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE1B34F7264F5C3E2BD20D2 /* NotificationManager.swift */; };
 		D7219AFC2A4352A2C3CAA392 /* IPCSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903AFEFC046B7ECBA51A3CA0 /* IPCSocket.swift */; };
 		D72CE787A12633BB155C29C2 /* TimerCLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFEF4A600E0069FFE80B4 /* TimerCLI.framework */; };
-		D8B7DD0B7F56CEC6B50FF294 /* TimerCLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFEF4A600E0069FFE80B4 /* TimerCLI.framework */; };
+		D884DA60D44978F40003E384 /* TimerCLI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFEF4A600E0069FFE80B4 /* TimerCLI.framework */; };
+		D952092285F269DD7EA44123 /* timer in Resources */ = {isa = PBXBuildFile; fileRef = EAED3D698739025C56FDECFB /* timer */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		DB8268656A89F8B0330E27B1 /* StatusItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EAA3F7669C725637B3D9B /* StatusItemController.swift */; };
 		E00AE760068ADFC4FD863491 /* IPCCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E96016EE7BBB65365DC114 /* IPCCommand.swift */; };
+		E3903148E257A89D8C7CB081 /* CLIInstaller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0643325588B4BFB0187300 /* CLIInstaller.swift */; };
 		EE2DAA551B274B5C15CE8000 /* OutputFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3C96C24A6177A62C796E879 /* OutputFormatter.swift */; };
 		F9B358B4B0394EE25F56DED2 /* PreferencesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C157023578C06954EB6334D /* PreferencesController.swift */; };
+		FE7B858ABF4857F85D535A93 /* StatusItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 795EAA3F7669C725637B3D9B /* StatusItemController.swift */; };
 		FE8B8977F774A5B86D2311FF /* TimerManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB96A5144AB75A5A246A4B0E /* TimerManagerTests.swift */; };
-		FF0C8A6449F8E8F3AEAD9103 /* IPCServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2D48AF0A9F34E694B8B8CA3 /* IPCServer.swift */; };
 		FF370B39826558001C25E68C /* PromptTimerCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B2AAFE764F82E8C24B0D17AB /* PromptTimerCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -85,6 +100,13 @@
 			remoteGlobalIDString = F4A1645220B169BAB2CC15D4;
 			remoteInfo = PromptTimerCore;
 		};
+		8739D9A68213F6223A4655C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E514ACF9085C3BB04E1FE7D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F4A1645220B169BAB2CC15D4;
+			remoteInfo = PromptTimerCore;
+		};
 		971D36CE46B0E4C79D94D2F6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E514ACF9085C3BB04E1FE7D /* Project object */;
@@ -92,19 +114,19 @@
 			remoteGlobalIDString = F4A1645220B169BAB2CC15D4;
 			remoteInfo = PromptTimerCore;
 		};
-		C33130AB6F8A6CBB7C79860C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0E514ACF9085C3BB04E1FE7D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 147FDB1F069AE181D4268D72;
-			remoteInfo = TimerCLI;
-		};
-		D794BD655A4C46CD1B6C3C7A /* PBXContainerItemProxy */ = {
+		9BEB379F6E809FE8C682D315 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E514ACF9085C3BB04E1FE7D /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 54BE9471FFC310EDDFA6BAC1;
 			remoteInfo = timer;
+		};
+		BFE585063950EB3B91BE49B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0E514ACF9085C3BB04E1FE7D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 147FDB1F069AE181D4268D72;
+			remoteInfo = TimerCLI;
 		};
 		F0F53B6B52F0E9B5EC9B457E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -130,7 +152,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				1CBF648D59D31BE99E879E85 /* PromptTimerCore.framework in Embed Frameworks */,
-				062B154D17B21AC4263407A2 /* TimerCLI.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -147,6 +168,18 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5301A11F06C5B374A272F403 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1B23363252510B9E4A22F345 /* PromptTimerCore.framework in Embed Frameworks */,
+				2030C7B6282967639E56F0C5 /* TimerCLI.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -154,7 +187,6 @@
 		0C157023578C06954EB6334D /* PreferencesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesController.swift; sourceTree = "<group>"; };
 		0E9BF3DCA633CED821F79C3F /* LaunchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchManager.swift; sourceTree = "<group>"; };
 		27BDF501276CF2A7EDD23DF1 /* TimerEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerEntry.swift; sourceTree = "<group>"; };
-		2C90373805143051E1C8263B /* PromptTimerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PromptTimerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2DE1B34F7264F5C3E2BD20D2 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		2EA9F7FCA703E287EA9BA4D6 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		2F0643325588B4BFB0187300 /* CLIInstaller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CLIInstaller.swift; sourceTree = "<group>"; };
@@ -167,6 +199,7 @@
 		5E96090A37049F38AF32AF95 /* PromptTimerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PromptTimerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		66B25BE085D1C92644EE41EB /* IPCResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPCResponse.swift; sourceTree = "<group>"; };
 		67C9686A3B55DA5D44BC9348 /* AppIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = AppIcon.icns; sourceTree = "<group>"; };
+		68174FA6ED63C7F3B626CEAA /* Prompt Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Prompt Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E3F751B8D20774F0092D079 /* TimerPromptParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerPromptParserTests.swift; sourceTree = "<group>"; };
 		6FC41C444C11462703C6C291 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		70003A2EC7FC7FA30156B7E7 /* DurationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DurationParser.swift; sourceTree = "<group>"; };
@@ -176,6 +209,7 @@
 		860E00214C34CFDDAF9E3BB8 /* TimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerState.swift; sourceTree = "<group>"; };
 		891443A599AC3A5EBB002A2A /* ApplicationLauncher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationLauncher.swift; sourceTree = "<group>"; };
 		8E3FAF536169E6C44CC2B941 /* IPCClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPCClient.swift; sourceTree = "<group>"; };
+		8F7FFB73B55FCE013D41AB38 /* Prompt Timer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Prompt Timer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		903AFEFC046B7ECBA51A3CA0 /* IPCSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPCSocket.swift; sourceTree = "<group>"; };
 		92BE1A8B940CF3CD08EF5A1C /* HotkeyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyManager.swift; sourceTree = "<group>"; };
 		96C22D6FCE73D9A79BE9C58A /* TimerAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerAction.swift; sourceTree = "<group>"; };
@@ -200,6 +234,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1A17F269299F1C281029EBA4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1560CB0EDF5B0CDF9E89382B /* PromptTimerCore.framework in Frameworks */,
+				D884DA60D44978F40003E384 /* TimerCLI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7C4E3BF5D625EFDA98C404B9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -222,7 +265,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B7E0843EC57196B368CF3A9 /* PromptTimerCore.framework in Frameworks */,
-				D8B7DD0B7F56CEC6B50FF294 /* TimerCLI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,7 +345,8 @@
 		9A615DB8A154D413870B722B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2C90373805143051E1C8263B /* PromptTimerApp.app */,
+				68174FA6ED63C7F3B626CEAA /* Prompt Timer.app */,
+				8F7FFB73B55FCE013D41AB38 /* Prompt Timer.app */,
 				B2AAFE764F82E8C24B0D17AB /* PromptTimerCore.framework */,
 				5E96090A37049F38AF32AF95 /* PromptTimerTests.xctest */,
 				EAED3D698739025C56FDECFB /* timer */,
@@ -417,14 +460,35 @@
 			);
 			dependencies = (
 				95E62547C562E22DEB50B391 /* PBXTargetDependency */,
-				2FBFBE3982E89E5F56B3B4D2 /* PBXTargetDependency */,
-				80AD75AA5A21C018CA73CFE2 /* PBXTargetDependency */,
 			);
 			name = PromptTimerApp;
 			packageProductDependencies = (
 			);
 			productName = PromptTimerApp;
-			productReference = 2C90373805143051E1C8263B /* PromptTimerApp.app */;
+			productReference = 68174FA6ED63C7F3B626CEAA /* Prompt Timer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		ECFC84FAE98850D77EAF8959 /* PromptTimerPersonal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84CC93D91641F18AD26AC588 /* Build configuration list for PBXNativeTarget "PromptTimerPersonal" */;
+			buildPhases = (
+				8BA47E455B7B5D65B78397C1 /* Sources */,
+				BE3BA835E810827853CF4CF9 /* Resources */,
+				1A17F269299F1C281029EBA4 /* Frameworks */,
+				5301A11F06C5B374A272F403 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1AFFF271CC946B6DD2878010 /* PBXTargetDependency */,
+				B325B1CED226B8E7223A9DA0 /* PBXTargetDependency */,
+				CDF870FDDFF4E0836529D72A /* PBXTargetDependency */,
+			);
+			name = PromptTimerPersonal;
+			packageProductDependencies = (
+			);
+			productName = PromptTimerPersonal;
+			productReference = 8F7FFB73B55FCE013D41AB38 /* Prompt Timer.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F4A1645220B169BAB2CC15D4 /* PromptTimerCore */ = {
@@ -471,6 +535,7 @@
 			targets = (
 				C632757BCC223CA4CFE28E9D /* PromptTimerApp */,
 				F4A1645220B169BAB2CC15D4 /* PromptTimerCore */,
+				ECFC84FAE98850D77EAF8959 /* PromptTimerPersonal */,
 				A5AAC0D351E10F8EF87ECF46 /* PromptTimerTests */,
 				147FDB1F069AE181D4268D72 /* TimerCLI */,
 				54BE9471FFC310EDDFA6BAC1 /* timer */,
@@ -484,7 +549,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4BAC86DCBBC165B50281792 /* AppIcon.icns in Resources */,
-				6C8475407CE0E0B4CCC0509B /* timer in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BE3BA835E810827853CF4CF9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				202222EA115EFAEB0CCA512A /* AppIcon.icns in Resources */,
+				D952092285F269DD7EA44123 /* timer in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -510,10 +583,8 @@
 			files = (
 				17E60E912B04CFA617E30DD8 /* AppDelegate.swift in Sources */,
 				4A0A554A4CC2F98A36E6411C /* ApplicationLauncher.swift in Sources */,
-				AA965CC7A8AC8E0218BD9C11 /* CLIInstaller.swift in Sources */,
 				596A3D0DC99A1CEBCDEBF7EC /* CompletionOverlayController.swift in Sources */,
 				41BD4939807CF29C2E72D5BB /* HotkeyManager.swift in Sources */,
-				FF0C8A6449F8E8F3AEAD9103 /* IPCServer.swift in Sources */,
 				58090BC1E3B44132E9082A91 /* LaunchManager.swift in Sources */,
 				D08A747880892D807F23E8C5 /* NotificationManager.swift in Sources */,
 				F9B358B4B0394EE25F56DED2 /* PreferencesController.swift in Sources */,
@@ -522,6 +593,27 @@
 				0FA74BB7325C53562C48850B /* ShortcutRecorderButton.swift in Sources */,
 				DB8268656A89F8B0330E27B1 /* StatusItemController.swift in Sources */,
 				7044F5FC074BC515EE2E46D6 /* WakeMonitor.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8BA47E455B7B5D65B78397C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4962CA9D9743B90C86A13F7B /* AppDelegate.swift in Sources */,
+				1566866BA8C7E58333382F5C /* ApplicationLauncher.swift in Sources */,
+				E3903148E257A89D8C7CB081 /* CLIInstaller.swift in Sources */,
+				03CEC4B805AEDC01F68D4312 /* CompletionOverlayController.swift in Sources */,
+				939A8A5A06F8FF4EF0E64109 /* HotkeyManager.swift in Sources */,
+				5380519B6463F8798594E8C4 /* IPCServer.swift in Sources */,
+				B5ED6B4EC84AD5AFDC38124C /* LaunchManager.swift in Sources */,
+				086DE26C88E73FB1AE1B13C0 /* NotificationManager.swift in Sources */,
+				385D2093F5A55DEFE902CD63 /* PreferencesController.swift in Sources */,
+				A6DF7458D6CE4A639F9DCE33 /* PromptTimerApp.swift in Sources */,
+				79C2D45BE030209033356869 /* QuickAddWindowController.swift in Sources */,
+				9DF6A07471D111F6E6AD69F2 /* ShortcutRecorderButton.swift in Sources */,
+				FE7B858ABF4857F85D535A93 /* StatusItemController.swift in Sources */,
+				5F1F16108D3320882F805892 /* WakeMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -570,20 +662,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		2FBFBE3982E89E5F56B3B4D2 /* PBXTargetDependency */ = {
+		1AFFF271CC946B6DD2878010 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 147FDB1F069AE181D4268D72 /* TimerCLI */;
-			targetProxy = C33130AB6F8A6CBB7C79860C /* PBXContainerItemProxy */;
+			target = F4A1645220B169BAB2CC15D4 /* PromptTimerCore */;
+			targetProxy = 8739D9A68213F6223A4655C5 /* PBXContainerItemProxy */;
 		};
 		5D586E483B4C1EE8B631D00E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F4A1645220B169BAB2CC15D4 /* PromptTimerCore */;
 			targetProxy = 49821300E48AA8D6398F6334 /* PBXContainerItemProxy */;
-		};
-		80AD75AA5A21C018CA73CFE2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 54BE9471FFC310EDDFA6BAC1 /* timer */;
-			targetProxy = D794BD655A4C46CD1B6C3C7A /* PBXContainerItemProxy */;
 		};
 		93CC4F254A12D6D1BBE0178B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -599,6 +686,16 @@
 			isa = PBXTargetDependency;
 			target = F4A1645220B169BAB2CC15D4 /* PromptTimerCore */;
 			targetProxy = 750691D1FF64DD5B9C45FBB9 /* PBXContainerItemProxy */;
+		};
+		B325B1CED226B8E7223A9DA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 147FDB1F069AE181D4268D72 /* TimerCLI */;
+			targetProxy = BFE585063950EB3B91BE49B2 /* PBXContainerItemProxy */;
+		};
+		CDF870FDDFF4E0836529D72A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 54BE9471FFC310EDDFA6BAC1 /* timer */;
+			targetProxy = 9BEB379F6E809FE8C682D315 /* PBXContainerItemProxy */;
 		};
 		E0AAAD5D8D4F6F02E3B410A3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -640,6 +737,7 @@
 		0B56622D7898824780D617D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Config/timer.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -652,9 +750,27 @@
 			};
 			name = Debug;
 		};
+		0D69D9FFF0C8E0708D16038A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Config/PromptTimerPersonal.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Config/PromptTimerApp-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.joon.prompttimer;
+				PRODUCT_NAME = "Prompt Timer";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 		0E0D6A3ED9B35ED694C629FF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Config/timer.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -681,6 +797,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.joon.prompttimer;
 				PRODUCT_NAME = "Prompt Timer";
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) APP_STORE";
 			};
 			name = Release;
 		};
@@ -722,6 +839,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.joon.prompttimer;
 				PRODUCT_NAME = "Prompt Timer";
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) APP_STORE";
 			};
 			name = Debug;
 		};
@@ -823,6 +941,23 @@
 				SDKROOT = macosx;
 			};
 			name = Release;
+		};
+		C0FB642D59F0AD00C4BDC288 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Config/PromptTimerPersonal.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "Config/PromptTimerApp-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.joon.prompttimer;
+				PRODUCT_NAME = "Prompt Timer";
+				SDKROOT = macosx;
+			};
+			name = Debug;
 		};
 		E7B7FC015B8F1FE518B116B6 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -956,6 +1091,15 @@
 			buildConfigurations = (
 				F0D5F05E09A3A4DB983A5A1A /* Debug */,
 				094A43524F8B3DBDAAC5A6B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		84CC93D91641F18AD26AC588 /* Build configuration list for PBXNativeTarget "PromptTimerPersonal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C0FB642D59F0AD00C4BDC288 /* Debug */,
+				0D69D9FFF0C8E0708D16038A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

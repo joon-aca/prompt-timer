@@ -15,9 +15,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C632757BCC223CA4CFE28E9D"
+               BlueprintIdentifier = "ECFC84FAE98850D77EAF8959"
                BuildableName = "Prompt Timer.app"
-               BlueprintName = "PromptTimerApp"
+               BlueprintName = "PromptTimerPersonal"
+               ReferencedContainer = "container:PromptTimer.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "54BE9471FFC310EDDFA6BAC1"
+               BuildableName = "timer"
+               BlueprintName = "timer"
                ReferencedContainer = "container:PromptTimer.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +46,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C632757BCC223CA4CFE28E9D"
+            BlueprintIdentifier = "ECFC84FAE98850D77EAF8959"
             BuildableName = "Prompt Timer.app"
-            BlueprintName = "PromptTimerApp"
+            BlueprintName = "PromptTimerPersonal"
             ReferencedContainer = "container:PromptTimer.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -68,9 +82,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C632757BCC223CA4CFE28E9D"
+            BlueprintIdentifier = "ECFC84FAE98850D77EAF8959"
             BuildableName = "Prompt Timer.app"
-            BlueprintName = "PromptTimerApp"
+            BlueprintName = "PromptTimerPersonal"
             ReferencedContainer = "container:PromptTimer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -85,9 +99,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C632757BCC223CA4CFE28E9D"
+            BlueprintIdentifier = "ECFC84FAE98850D77EAF8959"
             BuildableName = "Prompt Timer.app"
-            BlueprintName = "PromptTimerApp"
+            BlueprintName = "PromptTimerPersonal"
             ReferencedContainer = "container:PromptTimer.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

@@ -22,8 +22,6 @@ final class IPCServer {
     func start() throws {
         stop()
         logger.debug("Starting IPC server on \(socketPath)")
-
-        // Clean up stale socket file from previous run
         unlink(socketPath)
 
         let descriptor = socket(AF_UNIX, SOCK_STREAM, 0)

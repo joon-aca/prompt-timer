@@ -49,6 +49,7 @@ targets:
       - target: TimerCLI
     settings:
       base:
+        CODE_SIGN_ENTITLEMENTS: Config/timer.entitlements
         PRODUCT_BUNDLE_IDENTIFIER: com.joon.prompttimer.cli
         PRODUCT_NAME: timer
         SKIP_INSTALL: NO
@@ -56,6 +57,34 @@ targets:
   PromptTimerApp:
     type: application
     platform: macOS
+    productName: "Prompt Timer"
+    info:
+      path: Config/PromptTimerApp-Info.plist
+      properties:
+        CFBundleIconFile: AppIcon
+    sources:
+      - path: PromptTimerApp
+        excludes:
+          - Models
+          - Utilities
+          - TimerStore.swift
+          - TimerManager.swift
+          - CLIInstaller.swift
+          - IPCServer.swift
+    dependencies:
+      - target: PromptTimerCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.joon.prompttimer
+        PRODUCT_NAME: "Prompt Timer"
+        CODE_SIGN_ENTITLEMENTS: Config/PromptTimerApp.entitlements
+        INFOPLIST_FILE: Config/PromptTimerApp-Info.plist
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: "$(inherited) APP_STORE"
+
+  PromptTimerPersonal:
+    type: application
+    platform: macOS
+    productName: "Prompt Timer"
     info:
       path: Config/PromptTimerApp-Info.plist
       properties:
@@ -79,7 +108,7 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.joon.prompttimer
         PRODUCT_NAME: "Prompt Timer"
-        CODE_SIGN_ENTITLEMENTS: Config/PromptTimerApp.entitlements
+        CODE_SIGN_ENTITLEMENTS: Config/PromptTimerPersonal.entitlements
         INFOPLIST_FILE: Config/PromptTimerApp-Info.plist
 
   PromptTimerTests:
@@ -102,8 +131,14 @@ schemes:
     build:
       targets:
         PromptTimerApp: all
+    test:
+      targets:
+        - PromptTimerTests
+  PromptTimerPersonal:
+    build:
+      targets:
+        PromptTimerPersonal: all
         timer: all
-        PromptTimerTests: test
     test:
       targets:
         - PromptTimerTests

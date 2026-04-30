@@ -12,7 +12,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var completionOverlayController: CompletionOverlayController?
     private var quickAddWindowController: QuickAddWindowController?
     private var preferencesController: PreferencesController?
+    #if !APP_STORE
     private var ipcServer: IPCServer?
+    #endif
     private var wakeMonitor: WakeMonitor?
     private var hotkeyManager: HotkeyManager?
     private let launchManager = LaunchManager()
@@ -87,9 +89,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 timerManager?.handleWake()
             }
 
-            let ipcServer = IPCServer(
-                socketPath: timerStore.socketPath
-            ) { [weak self] command in
+            #if !APP_STORE
+            let ipcServer = IPCServer(socketPath: timerStore.socketPath) { [weak self] command in
                 guard let self else {
                     return IPCResponse.failure("Prompt Timer is shutting down.")
                 }
@@ -97,6 +98,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                     self.handle(command)
                 }
             }
+            #endif
 
             self.timerStore = timerStore
             self.timerManager = timerManager
@@ -104,7 +106,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             self.notificationManager = notificationManager
             self.completionOverlayController = completionOverlayController
             self.wakeMonitor = wakeMonitor
+            #if !APP_STORE
             self.ipcServer = ipcServer
+            #endif
 
             let hotkeyManager = HotkeyManager { [weak self] in
                 self?.presentQuickAdd()
@@ -125,8 +129,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             lastLaunchAtLogin = launchStatus.isEnabled
             isReconcilingLaunchAtLoginPreference = true
             wakeMonitor.start()
+            #if !APP_STORE
             try ipcServer.start()
             logger.debug("IPC server started on \(timerStore.socketPath)")
+            #endif
             timerManager.load()
             reconcileLaunchAtLoginPreference(with: launchStatus)
             _ = hotkeyManager.register(
@@ -142,7 +148,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ notification: Notification) {
         wakeMonitor?.stop()
+        #if !APP_STORE
         ipcServer?.stop()
+        #endif
     }
 
     private func handle(_ command: IPCCommand) -> IPCResponse {

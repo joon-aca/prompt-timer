@@ -17,7 +17,7 @@ NOTARIZE_KEYCHAIN_PROFILE="${NOTARIZE_KEYCHAIN_PROFILE:-}"  # set via: xcrun not
 echo "Building ${APP_NAME}..."
 rm -rf "$BUILD_DIR" build/XCBuildData
 xcodebuild -project PromptTimer.xcodeproj \
-    -target PromptTimerApp \
+    -target PromptTimerPersonal \
     -configuration Release \
     CONFIGURATION_BUILD_DIR="$(pwd)/$BUILD_DIR" \
     clean build -quiet
@@ -28,29 +28,36 @@ STAGING_DIR="$(mktemp -d)/dmg-staging"
 
 echo "Version: ${VERSION}"
 
-# Sign
+# Sign. Nested code must be signed before the app bundle, and the CLI needs
+# its library-validation entitlement even for ad-hoc local builds.
 if [[ -n "$SIGN_IDENTITY" ]]; then
     echo "Signing with Developer ID..."
-    # Sign frameworks first
-    find "${BUILD_DIR}/${APP_NAME}.app/Contents/Frameworks" -name "*.framework" | while read fw; do
-        codesign --force --sign "$SIGN_IDENTITY" --options runtime --timestamp "$fw"
-    done
-    # Sign the CLI binary explicitly with its own entitlements
-    codesign --force --sign "$SIGN_IDENTITY" \
-        --options runtime \
-        --timestamp \
-        --entitlements Config/timer.entitlements \
-        "${BUILD_DIR}/${APP_NAME}.app/Contents/Resources/timer"
-    # Sign the app bundle
-    codesign --force --sign "$SIGN_IDENTITY" \
-        --options runtime \
-        --timestamp \
-        --entitlements Config/PromptTimerApp.entitlements \
-        "${BUILD_DIR}/${APP_NAME}.app"
+    SIGN_TIMESTAMP_ARGS=(--timestamp)
+    SIGNING_IDENTITY="$SIGN_IDENTITY"
 else
     echo "No SIGN_IDENTITY set — using ad-hoc signing (not suitable for distribution)"
-    codesign --force --deep --sign - "${BUILD_DIR}/${APP_NAME}.app"
+    SIGN_TIMESTAMP_ARGS=()
+    SIGNING_IDENTITY="-"
 fi
+
+find "${BUILD_DIR}/${APP_NAME}.app/Contents/Frameworks" -name "*.framework" | while read -r fw; do
+    codesign --force --sign "$SIGNING_IDENTITY" \
+        --options runtime \
+        "${SIGN_TIMESTAMP_ARGS[@]}" \
+        "$fw"
+done
+
+codesign --force --sign "$SIGNING_IDENTITY" \
+    --options runtime \
+    "${SIGN_TIMESTAMP_ARGS[@]}" \
+    --entitlements Config/timer.entitlements \
+    "${BUILD_DIR}/${APP_NAME}.app/Contents/Resources/timer"
+
+codesign --force --sign "$SIGNING_IDENTITY" \
+    --options runtime \
+    "${SIGN_TIMESTAMP_ARGS[@]}" \
+    --entitlements Config/PromptTimerPersonal.entitlements \
+    "${BUILD_DIR}/${APP_NAME}.app"
 
 # Stage
 echo "Staging DMG..."

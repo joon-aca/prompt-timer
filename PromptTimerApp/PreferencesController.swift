@@ -24,8 +24,10 @@ final class PreferencesController: NSWindowController {
     private let celebrationPopup = NSPopUpButton(frame: .zero, pullsDown: false)
     private let funEffectPopup = NSPopUpButton(frame: .zero, pullsDown: false)
     private let availableSounds = NotificationManager.availableSounds
+    #if !APP_STORE
     private let cliInstallButton = NSButton(title: "Install CLI", target: nil, action: nil)
     private let cliStatusLabel = NSTextField(labelWithString: "")
+    #endif
     private let notificationStatusLabel = NSTextField(labelWithString: "")
     private let notificationTestButton = NSButton(title: "Test Notification", target: nil, action: nil)
     private var launchStatusText = "Prompt Timer stays off until you turn on launch at login."
@@ -176,6 +178,7 @@ final class PreferencesController: NSWindowController {
         funEffectRow.alignment = .centerY
         funEffectRow.spacing = 8
 
+        #if !APP_STORE
         cliInstallButton.bezelStyle = .rounded
         cliInstallButton.target = self
         cliInstallButton.action = #selector(installCLI)
@@ -186,6 +189,7 @@ final class PreferencesController: NSWindowController {
         cliRow.orientation = .horizontal
         cliRow.alignment = .centerY
         cliRow.spacing = 8
+        #endif
         notificationStatusLabel.font = .systemFont(ofSize: 11)
         notificationStatusLabel.textColor = .secondaryLabelColor
         notificationStatusLabel.lineBreakMode = .byWordWrapping
@@ -217,7 +221,9 @@ final class PreferencesController: NSWindowController {
         stack.addArrangedSubview(shortcutRow)
         stack.addArrangedSubview(hotkeyStatusLabel)
         stack.addArrangedSubview(hotkeyHintLabel)
+        #if !APP_STORE
         stack.addArrangedSubview(cliRow)
+        #endif
         stack.addArrangedSubview(notificationRow)
 
         contentView.addSubview(stack)
@@ -250,9 +256,12 @@ final class PreferencesController: NSWindowController {
         launchStatusLabel.stringValue = launchStatusText
         hotkeyStatusLabel.stringValue = hotkeyStatusText
         shortcutClearButton.isEnabled = preferences.hotkeyKeyCode != 0 && preferences.hotkeyModifiers != 0
+        #if !APP_STORE
         refreshCLIStatus()
+        #endif
     }
 
+    #if !APP_STORE
     private func refreshCLIStatus() {
         if CLIInstaller.isInstalled {
             cliInstallButton.title = "Uninstall CLI"
@@ -262,6 +271,7 @@ final class PreferencesController: NSWindowController {
             cliStatusLabel.stringValue = "Use 'timer' from any terminal"
         }
     }
+    #endif
 
     @objc private func soundChanged() {
         guard let title = soundPopup.selectedItem?.title else { return }
@@ -294,6 +304,7 @@ final class PreferencesController: NSWindowController {
         onPreferencesChanged?(preferences)
     }
 
+    #if !APP_STORE
     @objc private func installCLI() {
         let message: String
         if CLIInstaller.isInstalled {
@@ -304,6 +315,7 @@ final class PreferencesController: NSWindowController {
         cliStatusLabel.stringValue = message
         refreshCLIStatus()
     }
+    #endif
 
     @objc private func clearShortcut() {
         preferences.hotkeyKeyCode = 0
