@@ -1,4 +1,3 @@
-import Darwin
 import Foundation
 
 public struct TimerStore {
@@ -15,27 +14,28 @@ public struct TimerStore {
         baseDirectory: URL? = nil
     ) throws {
         let directory: URL
+        let socketDirectory: URL
         if let baseDirectory {
             directory = baseDirectory
+            socketDirectory = baseDirectory
         } else {
-            let homeDirectory = URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
-            let containerRoot = homeDirectory
-                .appendingPathComponent("Library", isDirectory: true)
-                .appendingPathComponent("Containers", isDirectory: true)
-                .appendingPathComponent(Self.appBundleIdentifier, isDirectory: true)
-                .appendingPathComponent("Data", isDirectory: true)
-                .appendingPathComponent("Library", isDirectory: true)
-                .appendingPathComponent("Application Support", isDirectory: true)
-            directory = containerRoot.appendingPathComponent("PromptTimer", isDirectory: true)
+            let applicationSupportDirectory = try fileManager.url(
+                for: .applicationSupportDirectory,
+                in: .userDomainMask,
+                appropriateFor: nil,
+                create: true
+            )
+            directory = applicationSupportDirectory.appendingPathComponent("PromptTimer", isDirectory: true)
+            socketDirectory = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
         }
 
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+        try fileManager.createDirectory(at: socketDirectory, withIntermediateDirectories: true, attributes: nil)
         appSupportDirectory = directory
         stateFileURL = directory.appendingPathComponent("state.json")
         fileStore = AtomicFileStore<AppState>(fileURL: stateFileURL)
 
-        let tmpDir = NSTemporaryDirectory()
-        socketPath = (tmpDir as NSString).appendingPathComponent("\(Self.appBundleIdentifier).sock")
+        socketPath = socketDirectory.appendingPathComponent("\(Self.appBundleIdentifier).sock").path
     }
 
     public func loadState() -> AppState {
