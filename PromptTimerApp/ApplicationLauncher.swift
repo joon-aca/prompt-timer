@@ -50,6 +50,10 @@ final class ApplicationLauncher {
             throw ApplicationLauncherError.applicationNotFound(rawTarget)
         }
 
+        if let application = resolveNaturalLanguageAlias(target) {
+            return application
+        }
+
         if let application = resolveBundleIdentifier(target) {
             return application
         }
@@ -67,6 +71,35 @@ final class ApplicationLauncher {
         }
 
         throw ApplicationLauncherError.applicationNotFound(target)
+    }
+
+    private func resolveNaturalLanguageAlias(_ target: String) -> ResolvedApplication? {
+        guard let alias = Self.applicationAliases[normalizeAlias(target)] else {
+            return nil
+        }
+
+        for bundleIdentifier in alias.bundleIdentifiers {
+            if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleIdentifier),
+               let resolved = makeResolvedApplication(url: url) {
+                return resolved
+            }
+        }
+
+        for scheme in alias.urlSchemes {
+            if let url = URL(string: "\(scheme):"),
+               let applicationURL = NSWorkspace.shared.urlForApplication(toOpen: url),
+               let resolved = makeResolvedApplication(url: applicationURL) {
+                return resolved
+            }
+        }
+
+        for name in alias.applicationNames {
+            if let resolved = resolveExactApplicationName(name) ?? resolveFuzzyApplicationName(name) {
+                return resolved
+            }
+        }
+
+        return nil
     }
 
     private func resolveBundleIdentifier(_ target: String) -> ResolvedApplication? {
@@ -154,6 +187,13 @@ final class ApplicationLauncher {
             .replacingOccurrences(of: " ", with: "")
     }
 
+    private func normalizeAlias(_ value: String) -> String {
+        value
+            .lowercased()
+            .split(whereSeparator: \.isWhitespace)
+            .joined(separator: " ")
+    }
+
     private static let applicationDirectories = [
         "/Applications",
         "/Applications/Utilities",
@@ -161,12 +201,50 @@ final class ApplicationLauncher {
         "/System/Applications/Utilities",
         NSString(string: "~/Applications").expandingTildeInPath,
     ]
+
+    private static let applicationAliases: [String: ApplicationAlias] = [
+        "browser": ApplicationAlias(urlSchemes: ["https"], applicationNames: ["Safari", "Google Chrome"]),
+        "calendar": ApplicationAlias(bundleIdentifiers: ["com.apple.iCal"], applicationNames: ["Calendar"]),
+        "chrome": ApplicationAlias(bundleIdentifiers: ["com.google.Chrome"], applicationNames: ["Google Chrome"]),
+        "email": ApplicationAlias(urlSchemes: ["mailto"], applicationNames: ["Mail"]),
+        "facetime": ApplicationAlias(bundleIdentifiers: ["com.apple.FaceTime"], applicationNames: ["FaceTime"]),
+        "gmail": ApplicationAlias(urlSchemes: ["mailto"], applicationNames: ["Mail"]),
+        "mail": ApplicationAlias(urlSchemes: ["mailto"], applicationNames: ["Mail"]),
+        "messages": ApplicationAlias(bundleIdentifiers: ["com.apple.MobileSMS"], applicationNames: ["Messages"]),
+        "microsoft teams": ApplicationAlias(
+            bundleIdentifiers: ["com.microsoft.teams2", "com.microsoft.teams"],
+            applicationNames: ["Microsoft Teams"]
+        ),
+        "safari": ApplicationAlias(bundleIdentifiers: ["com.apple.Safari"], applicationNames: ["Safari"]),
+        "slack": ApplicationAlias(bundleIdentifiers: ["com.tinyspeck.slackmacgap"], applicationNames: ["Slack"]),
+        "teams": ApplicationAlias(
+            bundleIdentifiers: ["com.microsoft.teams2", "com.microsoft.teams"],
+            applicationNames: ["Microsoft Teams"]
+        ),
+        "zoom": ApplicationAlias(bundleIdentifiers: ["us.zoom.xos"], applicationNames: ["zoom.us", "Zoom"]),
+    ]
 }
 
 private struct ResolvedApplication {
     let url: URL
     let identifier: String
     let displayName: String
+}
+
+private struct ApplicationAlias {
+    var bundleIdentifiers: [String]
+    var urlSchemes: [String]
+    var applicationNames: [String]
+
+    init(
+        bundleIdentifiers: [String] = [],
+        urlSchemes: [String] = [],
+        applicationNames: [String] = []
+    ) {
+        self.bundleIdentifiers = bundleIdentifiers
+        self.urlSchemes = urlSchemes
+        self.applicationNames = applicationNames
+    }
 }
 
 private enum ApplicationLauncherError: LocalizedError {

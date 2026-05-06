@@ -57,23 +57,102 @@ public enum TimerPromptParser {
     }
 
     private static func parseDurationFirstDetails(from tokens: [String]) -> (String?, TimerAction?) {
+        if let details = parseLeadingActionDetails(from: tokens) {
+            return details
+        }
+
+        if let details = parseTrailingActionDetails(from: tokens) {
+            return details
+        }
+
+        if let details = parseNaturalLanguageAppDetails(from: tokens) {
+            return details
+        }
+
+        return (join(tokens), nil)
+    }
+
+    private static func parseLeadingActionDetails(from tokens: [String]) -> (String?, TimerAction?)? {
+        guard let actionMatch = leadingActionMatch(in: tokens) else {
+            return nil
+        }
+
+        let remainingTokens = Array(tokens.dropFirst(actionMatch.length))
+        let normalizedRemainingTokens = remainingTokens.map(normalize)
+
+        guard let separatorIndex = firstLabelSeparatorIndex(in: normalizedRemainingTokens),
+              separatorIndex > 0,
+              separatorIndex < remainingTokens.count - 1 else {
+            return nil
+        }
+
+        let targetTokens = Array(remainingTokens[..<separatorIndex])
+        let labelTokens = Array(remainingTokens[(separatorIndex + 1)...])
+        guard let target = join(targetTokens),
+              let label = join(labelTokens) else {
+            return nil
+        }
+
+        return (label, .launchApplication(target: target))
+    }
+
+    private static func parseTrailingActionDetails(from tokens: [String]) -> (String?, TimerAction?)? {
         guard let actionMatch = trailingActionMatch(in: tokens) else {
-            return (join(tokens), nil)
+            return nil
         }
 
         let labelTokens = Array(tokens[..<actionMatch.startIndex])
         let targetTokens = Array(tokens[actionMatch.endIndex...])
         guard !labelTokens.isEmpty else {
-            return (join(tokens), nil)
+            return nil
         }
 
         let target = join(targetTokens)
 
         guard let target else {
-            return (join(tokens), nil)
+            return nil
         }
 
         return (join(labelTokens), .launchApplication(target: target))
+    }
+
+    private static func parseNaturalLanguageAppDetails(from tokens: [String]) -> (String?, TimerAction?)? {
+        let normalizedTokens = tokens.map(normalize)
+        var bestMatch: ActionMatch?
+
+        for startIndex in tokens.indices {
+            for phrase in appPrepositionPhrases {
+                let endIndex = startIndex + phrase.count
+                guard endIndex < tokens.count else {
+                    continue
+                }
+                guard startIndex > 0 else {
+                    continue
+                }
+                guard Array(normalizedTokens[startIndex..<endIndex]) == phrase else {
+                    continue
+                }
+
+                let match = ActionMatch(startIndex: startIndex, endIndex: endIndex, length: phrase.count)
+                if bestMatch == nil || startIndex > bestMatch!.startIndex {
+                    bestMatch = match
+                }
+            }
+        }
+
+        guard let bestMatch else {
+            return nil
+        }
+
+        let labelTokens = Array(tokens[..<bestMatch.startIndex])
+        let targetTokens = Array(tokens[bestMatch.endIndex...])
+        guard let label = join(labelTokens),
+              let target = join(targetTokens),
+              isKnownNaturalLanguageAppTarget(target) else {
+            return nil
+        }
+
+        return (label, .launchApplication(target: target))
     }
 
     private static func join(_ tokens: [String]) -> String? {
@@ -121,8 +200,28 @@ public enum TimerPromptParser {
         return bestMatch
     }
 
+    private static func firstLabelSeparatorIndex(in normalizedTokens: [String]) -> Int? {
+        for token in labelSeparatorWords {
+            if let index = normalizedTokens.firstIndex(of: token) {
+                return index
+            }
+        }
+        return nil
+    }
+
+    private static func isKnownNaturalLanguageAppTarget(_ target: String) -> Bool {
+        knownNaturalLanguageAppTargets.contains(normalizePhrase(target))
+    }
+
     private static func normalize(_ token: String) -> String {
         token.lowercased()
+    }
+
+    private static func normalizePhrase(_ value: String) -> String {
+        value
+            .lowercased()
+            .split(whereSeparator: \.isWhitespace)
+            .joined(separator: " ")
     }
 
     private static let actionPhrases = [
@@ -130,6 +229,46 @@ public enum TimerPromptParser {
         ["launch"],
         ["start"],
         ["open"],
+    ]
+
+    private static let appPrepositionPhrases = [
+        ["in"],
+        ["on"],
+        ["over"],
+        ["through"],
+        ["using"],
+        ["via"],
+    ]
+
+    private static let labelSeparatorWords = [
+        "about",
+        "for",
+        "to",
+    ]
+
+    private static let knownNaturalLanguageAppTargets: Set<String> = [
+        "browser",
+        "calendar",
+        "chrome",
+        "discord",
+        "email",
+        "facetime",
+        "figma",
+        "github",
+        "gmail",
+        "google meet",
+        "linear",
+        "mail",
+        "meet",
+        "messages",
+        "microsoft teams",
+        "notion",
+        "safari",
+        "slack",
+        "teams",
+        "terminal",
+        "webex",
+        "zoom",
     ]
 }
 

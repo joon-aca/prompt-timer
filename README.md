@@ -62,6 +62,9 @@ timer 25 deep work
 timer 30s tea
 timer 1h30m writing
 timer 10:30am team call launch zoom
+timer 10am call with Zo on zoom
+timer 12m send message to jack on email
+timer 23m open zoom for call with team
 timer 10:30am team call fire up zoom
 timer start zoom in 30min for team call
 timer list
@@ -77,7 +80,7 @@ timer help
 
 Bare integers are treated as minutes.
 
-Time-of-day input is supported, so `timer 10:30am team call` creates a timer that runs until the next 10:30 AM. App launch actions can be attached with trailing verbs like `launch`, `start`, `open`, or `fire up`, for example `timer 10:30am team call launch zoom`. Action-first prompts like `timer start zoom in 30min for team call` are also supported.
+Time-of-day input is supported, so `timer 10:30am team call` creates a timer that runs until the next 10:30 AM. App launch actions can be attached with trailing verbs like `launch`, `start`, `open`, or `fire up`, for example `timer 10:30am team call launch zoom`. Natural phrasing like `timer 10am call with Zo on zoom`, `timer 12m send message to jack on email`, and `timer 23m open zoom for call with team` is also supported. Action-first prompts like `timer start zoom in 30min for team call` work too.
 
 ## Build and install
 
